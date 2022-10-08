@@ -1,0 +1,9 @@
+table {
+    width: 100%;
+    align-items: center;
+    margin-top: 10px;
+  }
+
+  th {
+    width: 20%;
+  }

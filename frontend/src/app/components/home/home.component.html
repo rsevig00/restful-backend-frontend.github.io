@@ -3,22 +3,30 @@
       Microservicios App
     </span>
     <span class="example-spacer"></span>
-    <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+    <button mat-icon-button class="example-icon favorite-icon" (click) = "openDialog()" aria-label="Example icon-button with heart icon">
       <mat-icon>create</mat-icon>
     </button>
   </mat-toolbar>
 
-  <mat-card class="example-card">
-    <mat-card-title>Usuario 1</mat-card-title>
-    <mat-card-content>
-      <p>Nombre: Juan Perez</p>
-      <p>Edad: 25</p>
-      <p>Correo: juanperez@gmail.com
-    </mat-card-content>
-    <mat-divider inset></mat-divider>
-    <mat-card-actions >
-      <button mat-button>Editar</button>
-      <button mat-button style="margin-left: 275px;"><mat-icon>delete</mat-icon></button>
-    </mat-card-actions>
-  </mat-card>
+<!-- <div class="container">
+  <div fxLayout="row wrap" fxLayoutGap="16px grid">
+    <div [fxFlex]="(100/4) + '%'" fxFlex.xs="100%" fxFlex.sm="33%" *ngFor="let num of [1,2,3,4,5,6]">
+      <mat-card class="example-card">
+        <mat-card-title>Usuario 1</mat-card-title>
+        <mat-card-content>
+          <p>Nombre: Juan Perez</p>
+          <p>Edad: 25</p>
+          <p>Correo: juanperez@gmail.com
+        </mat-card-content>
+        <mat-divider inset></mat-divider>
+        <mat-card-actions >
+          <button mat-button>Editar</button>
+          <button mat-button ><mat-icon>delete</mat-icon></button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div> -->
+
+
   
