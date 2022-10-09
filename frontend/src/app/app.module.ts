@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import {MatCardModule} from '@angular/material/card'; 
 import {MatDividerModule} from '@angular/material/divider';
 import {MatProgressBarModule} from '@angular/material/progress-bar'; 
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import {MaterialExampleModule} from '../material.module';
@@ -31,7 +32,9 @@ import { ConfirmDialogComponent } from './components/shared/confirm-dialog/confi
     MatProgressBarModule,
     MaterialExampleModule,
     FlexLayoutModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   entryComponents: [ConfirmDialogComponent],
   providers: [],

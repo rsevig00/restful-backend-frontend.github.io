@@ -1,7 +1,30 @@
-<div mat-dialog-content>
-  {{message}}
+<div class="dialog">
+  <div mat-dialog-content>
+    {{message}}
+  </div>
+  <div class="inputs">
+    <form [formGroup]="form" (submit) = "agregarUsuario()">
+      <p>
+        <mat-form-field appearance="outline" style="width: 100%;">
+          <mat-label>Nombre</mat-label>
+          <input matInput autocomplete="off" formControlName="nombre">
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field appearance="outline" style="width: 100%;">
+          <mat-label>Apellido</mat-label>
+          <input matInput autocomplete="off" formControlName="apellido">
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field appearance="outline" style="width: 100%;">
+          <mat-label>Correo</mat-label>
+          <input matInput autocomplete="off" formControlName="correo">
+        </mat-form-field>
+      </p>
+      <button type="submit" [disabled]="form.invalid" mat-raised-button color="primary" >Aceptar</button>
+      <button mat-raised-button (click)="onClickCancelar()" style="margin-left: 15px;">Cancelar</button>
+    </form>
+  </div>
 </div>
-<div mat-dialog-actions>
-  <button mat-button [mat-dialog-close]="true">Aceptar</button>
-  <button mat-button (click)="onClickCancelar()">Cancelar</button>
-</div>
+
