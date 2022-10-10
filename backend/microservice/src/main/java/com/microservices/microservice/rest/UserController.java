@@ -2,6 +2,7 @@ package com.microservices.microservice.rest;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,11 +15,12 @@ import com.microservices.microservice.model.entitys.UserRepository;
 public class UserController {
 
     // standard constructors
-    
-    private UserRepository userRepository;
+	@Autowired
+    private final UserRepository userRepository = null;
 
     @GetMapping("/users")
     public List<User> getUsers() {
+    	System.out.println(userRepository + " hijo de puta ");
         return (List<User>) userRepository.findAll();
     }
 
