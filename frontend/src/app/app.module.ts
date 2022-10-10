@@ -14,6 +14,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UsersComponent } from './components/users/users.component';
 import { ConfirmDialogComponent } from './components/shared/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogEComponent } from './components/shared/confirm-dialog-e/confirm-dialog-e.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { ConfirmDialogComponent } from './components/shared/confirm-dialog/confi
     PageNotFoundComponent,
     UsersComponent,
     ConfirmDialogComponent,
+    ConfirmDialogEComponent,
     
   ],
   imports: [

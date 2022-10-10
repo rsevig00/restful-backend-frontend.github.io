@@ -1,9 +1,23 @@
 table {
     width: 100%;
     align-items: center;
-    margin-top: 10px;
+    margin-top: 0px;
   }
 
   th {
     width: 20%;
+  }
+
+  .boton-agregar {
+    margin-top: 20px;
+    color: white;
+    background-color:  #55beff ;
+    width: 140px;
+    height: 50px;
+    font-size: 25px;
+    
+  }
+
+  div.center {
+    text-align: center;
   }

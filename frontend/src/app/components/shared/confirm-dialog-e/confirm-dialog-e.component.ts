@@ -6,17 +6,16 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 import { UsersComponent } from '../../users/users.component';
 
 @Component({
-  selector: 'app-confirm-dialog',
-  templateUrl: './confirm-dialog.component.html',
-  styleUrls: ['./confirm-dialog.component.css']
+  selector: 'app-confirm-dialog-e',
+  templateUrl: './confirm-dialog-e.component.html',
+  styleUrls: ['./confirm-dialog-e.component.css']
 })
-export class ConfirmDialogComponent implements OnInit {
+export class ConfirmDialogEComponent implements OnInit {
 
-  
   form: FormGroup;
   constructor(
-    public dialogRef: MatDialogRef<ConfirmDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public message: string,
+    public dialogRef: MatDialogRef<ConfirmDialogEComponent>,
+    @Inject(MAT_DIALOG_DATA) public editData: any,
     private fb: FormBuilder,
     private _usuarioService: UsuarioService,
   ) { 
@@ -30,26 +29,32 @@ export class ConfirmDialogComponent implements OnInit {
   
 
   ngOnInit(): void {
+    console.log(this.editData);
+
+    if(this.editData){
+      this.form.patchValue({
+        nombre: this.editData.nombre,
+        apellido: this.editData.apellido,
+        correo: this.editData.correo
+      })
+    }
   }
 
   onClickCancelar(){
     this.dialogRef.close();
   }
 
-  agregarUsuario(){
+  editarUsuario(){
     console.log(this.form.value);
 
     const usuario: Usuario = {
-      numero: Math.floor(Math.random() * 1000),
+      numero: this.editData.numero,
       nombre: this.form.value.nombre,
       apellido: this.form.value.apellido,
       correo: this.form.value.correo,
       
     }
-
-    this._usuarioService.agregarUsuario(usuario);
-    
-
+    this._usuarioService.editarUsuario(usuario, this.editData.numero);
     this.dialogRef.close();
 
   }
