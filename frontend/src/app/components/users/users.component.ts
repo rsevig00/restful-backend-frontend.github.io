@@ -20,7 +20,7 @@ export class UsersComponent implements OnInit {
   listUsuarios: Usuario[] = [];
 
   displayedColumns: string[] = ['id', 'name', 'email', 'acciones'];	
-  dataSource! : MatTableDataSource<any>;
+  dataSource = new MatTableDataSource<Usuario>();
 
 
   constructor(
@@ -28,11 +28,14 @@ export class UsersComponent implements OnInit {
     public dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.cargarUsuarios();
+    // this._usuarioService.getUsuarios().subscribe(data => {this.listUsuarios = data; });
+    // this.cargarUsuarios();
+    this._usuarioService.getUsuarios().subscribe((res: any) => {
+      this.dataSource.data = res});
   }
 
   cargarUsuarios(){
-    this.listUsuarios = this._usuarioService.getUsuarios();
+    this._usuarioService.getUsuarios();
     console.log("Usuarios cargados: ", this.listUsuarios);
     this.dataSource = new MatTableDataSource(this.listUsuarios);
   }
@@ -40,8 +43,13 @@ export class UsersComponent implements OnInit {
   eliminarUsuario(index: number){
     console.log(index);
     
-    this._usuarioService.eliminarUsuario(index);
-    this.cargarUsuarios();
+    this._usuarioService.eliminarUsuario(index).subscribe(
+      data => {
+        console.log(data);
+        this._usuarioService.getUsuarios().subscribe((res: any) => {
+          this.dataSource.data = res});
+      })
+    //this.cargarUsuarios();
   }
 
   agregarUsuario(usuario: Usuario){
@@ -57,7 +65,7 @@ export class UsersComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
-      console.log(this._usuarioService.getUsuarios());
+      //console.log(this._usuarioService.getUsuarios());
       this.cargarUsuarios();
     });
   }
