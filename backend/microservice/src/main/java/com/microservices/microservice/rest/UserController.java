@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.microservices.microservice.model.entitys.User;
 import com.microservices.microservice.model.entitys.UserRepository;
@@ -31,10 +34,12 @@ public class UserController {
     }
     
     @DeleteMapping("/users")
-    void removeUser(@RequestBody Long userID) {
-        userRepository.deleteById(userID);
+    @ResponseBody
+    //Solo funciona si el parametro tiene el mismo nombre que la variable
+    void removeUser(@RequestParam Long _id) {
+        userRepository.deleteById(_id);
     }
-    
+     
     @PutMapping("/users")
     void modifyUser(@RequestBody Long userID, User updatedUser) {
         User user = userRepository.findById(userID).orElse(null);
