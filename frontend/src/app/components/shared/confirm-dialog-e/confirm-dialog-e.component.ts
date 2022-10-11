@@ -20,9 +20,8 @@ export class ConfirmDialogEComponent implements OnInit {
     private _usuarioService: UsuarioService,
   ) { 
     this.form = this.fb.group({
-      nombre: ['', Validators.required],
-      apellido: ['', Validators.required],
-      correo: ['', Validators.required]
+      name: ['', Validators.required],
+      email: ['', Validators.required]
     });
   }
 
@@ -33,9 +32,8 @@ export class ConfirmDialogEComponent implements OnInit {
 
     if(this.editData){
       this.form.patchValue({
-        nombre: this.editData.nombre,
-        apellido: this.editData.apellido,
-        correo: this.editData.correo
+        name: this.editData.name,
+        email: this.editData.email
       })
     }
   }
@@ -48,13 +46,12 @@ export class ConfirmDialogEComponent implements OnInit {
     console.log(this.form.value);
 
     const usuario: Usuario = {
-      numero: this.editData.numero,
-      nombre: this.form.value.nombre,
-      apellido: this.form.value.apellido,
-      correo: this.form.value.correo,
+      id: this.editData.id,
+      name: this.form.value.name,
+      email: this.form.value.email,
       
     }
-    this._usuarioService.editarUsuario(usuario, this.editData.numero);
+    this._usuarioService.editarUsuario(usuario, this.editData.id);
     this.dialogRef.close();
 
   }

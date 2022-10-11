@@ -19,7 +19,7 @@ export class UsersComponent implements OnInit {
 
   listUsuarios: Usuario[] = [];
 
-  displayedColumns: string[] = ['numero', 'nombre', 'apellido', 'correo', 'acciones'];	
+  displayedColumns: string[] = ['id', 'name', 'email', 'acciones'];	
   dataSource! : MatTableDataSource<any>;
 
 

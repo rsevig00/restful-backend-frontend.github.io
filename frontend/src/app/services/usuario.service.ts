@@ -7,13 +7,13 @@ import { Usuario } from '../interfaces/usuario';
 export class UsuarioService {
 
   listUsuarios: Usuario[] = [
-    {numero: 1, nombre: 'Daniel', apellido: 'Fernandez', correo: 'daniel@gmail.com'},
-    {numero: 100, nombre: 'Juan', apellido: 'Perez', correo: 'juanperez@gmail.com'},
-    {numero: 3, nombre: 'Maria', apellido: 'Gomez', correo: 'juanperez@gmail.com'},
-    {numero: 4, nombre: 'Pedro', apellido: 'Gomez', correo: 'juanperez@gmail.com'},
-    {numero: 5, nombre: 'Luis', apellido: 'Gomez', correo: 'juanperez@gmail.com'},
-    {numero: 6, nombre: 'Jose', apellido: 'Gomez', correo: 'juanperez@gmail.com'},
-    {numero: 7, nombre: 'Carlos', apellido: 'Gomez', correo: 'juanperez@gmail.com'}
+    {id: 1, name: 'Daniel', email: 'daniel@gmail.com'},
+    {id: 100, name: 'Juan', email: 'juanperez@gmail.com'},
+    {id: 3, name: 'Maria', email: 'juanperez@gmail.com'},
+    {id: 4, name: 'Pedro', email: 'juanperez@gmail.com'},
+    {id: 5, name: 'Luis', email: 'juanperez@gmail.com'},
+    {id: 6, name: 'Jose', email: 'juanperez@gmail.com'},
+    {id: 7, name: 'Carlos', email: 'juanperez@gmail.com'}
   ];
 
   constructor() { }
@@ -31,7 +31,7 @@ export class UsuarioService {
 
   editarUsuario(usuario: Usuario, index: number){
     this.listUsuarios.forEach((element, i) => {
-      if(element.numero == index){
+      if(element.id == index){
         this.listUsuarios[i] = usuario;
       }
     });
