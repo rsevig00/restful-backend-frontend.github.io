@@ -21,9 +21,8 @@ export class ConfirmDialogComponent implements OnInit {
     private _usuarioService: UsuarioService,
   ) { 
     this.form = this.fb.group({
-      nombre: ['', Validators.required],
-      apellido: ['', Validators.required],
-      correo: ['', Validators.required]
+      name: ['', Validators.required],
+      email: ['', Validators.required]
     });
   }
 
@@ -40,10 +39,9 @@ export class ConfirmDialogComponent implements OnInit {
     console.log(this.form.value);
 
     const usuario: Usuario = {
-      numero: Math.floor(Math.random() * 1000),
-      nombre: this.form.value.nombre,
-      apellido: this.form.value.apellido,
-      correo: this.form.value.correo,
+      id: Math.floor(Math.random() * 1000),
+      name: this.form.value.name,
+      email: this.form.value.email,
       
     }
 

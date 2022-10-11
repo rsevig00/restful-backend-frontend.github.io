@@ -4,7 +4,7 @@ import {MatCardModule} from '@angular/material/card';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatProgressBarModule} from '@angular/material/progress-bar'; 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import {MaterialExampleModule} from '../material.module';
 import { AppComponent } from './app.component';
@@ -28,6 +28,7 @@ import { ConfirmDialogEComponent } from './components/shared/confirm-dialog-e/co
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
     MatCardModule,
     MatDividerModule,

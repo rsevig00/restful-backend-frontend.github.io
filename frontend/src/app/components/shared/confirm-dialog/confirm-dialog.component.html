@@ -7,19 +7,13 @@
       <p>
         <mat-form-field appearance="outline" style="width: 100%;">
           <mat-label>Nombre</mat-label>
-          <input matInput autocomplete="off" formControlName="nombre">
-        </mat-form-field>
-      </p>
-      <p>
-        <mat-form-field appearance="outline" style="width: 100%;">
-          <mat-label>Apellido</mat-label>
-          <input matInput autocomplete="off" formControlName="apellido">
+          <input matInput autocomplete="off" formControlName="name">
         </mat-form-field>
       </p>
       <p>
         <mat-form-field appearance="outline" style="width: 100%;">
           <mat-label>Correo</mat-label>
-          <input matInput autocomplete="off" formControlName="correo">
+          <input matInput autocomplete="off" formControlName="email">
         </mat-form-field>
       </p>
       <button type="submit" [disabled]="form.invalid" mat-raised-button color="primary" >Aceptar</button>
