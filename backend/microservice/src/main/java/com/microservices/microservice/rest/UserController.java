@@ -20,7 +20,7 @@ import com.microservices.microservice.model.entitys.UserRepository;
 public class UserController {
 
     // standard constructors
-	@Autowired
+    @Autowired
     private final UserRepository userRepository = null;
 
     @GetMapping("/users")
@@ -30,7 +30,9 @@ public class UserController {
 
     @PostMapping("/users")
     void addUser(@RequestBody User user) {
-        userRepository.save(user);
+        System.out.println("Hola");
+        User userFinal = new User(user.getName(),user.getEmail());
+        userRepository.save(userFinal);
     }
     
     @DeleteMapping("/users")

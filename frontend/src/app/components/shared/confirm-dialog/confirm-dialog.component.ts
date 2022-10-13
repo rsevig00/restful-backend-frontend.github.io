@@ -1,9 +1,9 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Usuario } from 'src/app/interfaces/usuario';
 import { UsuarioService } from 'src/app/services/usuario.service';
-import { UsersComponent } from '../../users/users.component';
+import { CommonService } from 'src/app/services/share-service.service';
 
 @Component({
   selector: 'app-confirm-dialog',
@@ -19,16 +19,23 @@ export class ConfirmDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public message: string,
     private fb: FormBuilder,
     private _usuarioService: UsuarioService,
+    private _commonService: CommonService
   ) { 
     this.form = this.fb.group({
       name: ['', Validators.required],
       email: ['', Validators.required]
     });
   }
-
+  
   
 
   ngOnInit(): void {
+    
+  }
+
+  sendMessage(): void {
+    
+    this._commonService.sendUpdate('Message from Sender Component to Receiver Component!');
   }
 
   onClickCancelar(){
@@ -46,7 +53,7 @@ export class ConfirmDialogComponent implements OnInit {
     }
 
     this._usuarioService.agregarUsuario(usuario);
-    
+    this.sendMessage();
 
     this.dialogRef.close();
 

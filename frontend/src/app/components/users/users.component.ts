@@ -1,14 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Usuario } from 'src/app/interfaces/usuario';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../shared/confirm-dialog/confirm-dialog.component';
 import { ConfirmDialogEComponent } from '../shared/confirm-dialog-e/confirm-dialog-e.component';
-
-
-
-
+import { CommonService } from 'src/app/services/share-service.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-users',
@@ -16,6 +14,9 @@ import { ConfirmDialogEComponent } from '../shared/confirm-dialog-e/confirm-dial
   styleUrls: ['./users.component.css']
 })
 export class UsersComponent implements OnInit {
+
+  messageReceived: any;
+  private subscriptionName: Subscription;
 
   listUsuarios: Usuario[] = [];
 
@@ -25,19 +26,29 @@ export class UsersComponent implements OnInit {
 
   constructor(
     private _usuarioService: UsuarioService,
-    public dialog: MatDialog) { }
+    public dialog: MatDialog,
+    private _commonService: CommonService) { 
+      this.subscriptionName= this._commonService.getUpdate().subscribe
+        (message => { 
+        this.messageReceived = message;
+        console.log("Message received: ", this.messageReceived);
+        this.cargarUsuarios();
+      });
+    }
 
   ngOnInit(): void {
-    // this._usuarioService.getUsuarios().subscribe(data => {this.listUsuarios = data; });
-    // this.cargarUsuarios();
     this._usuarioService.getUsuarios().subscribe((res: any) => {
       this.dataSource.data = res});
   }
 
+  ngOnDestroy() { 
+    this.subscriptionName.unsubscribe();
+  }
+
   cargarUsuarios(){
-    this._usuarioService.getUsuarios();
-    console.log("Usuarios cargados: ", this.listUsuarios);
-    this.dataSource = new MatTableDataSource(this.listUsuarios);
+    console.log("Cargando usuarios");
+    this._usuarioService.getUsuarios().subscribe((res: any) => {
+      this.dataSource.data = res});
   }
 
   eliminarUsuario(index: number){
@@ -49,12 +60,7 @@ export class UsersComponent implements OnInit {
         this._usuarioService.getUsuarios().subscribe((res: any) => {
           this.dataSource.data = res});
       })
-    //this.cargarUsuarios();
-  }
-
-  agregarUsuario(usuario: Usuario){
-    this._usuarioService.agregarUsuario(usuario);
-    this.cargarUsuarios();
+    
   }
 
 
@@ -65,7 +71,6 @@ export class UsersComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
-      //console.log(this._usuarioService.getUsuarios());
       this.cargarUsuarios();
     });
   }
