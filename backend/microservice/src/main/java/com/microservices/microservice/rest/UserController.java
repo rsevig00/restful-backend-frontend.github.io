@@ -30,7 +30,7 @@ public class UserController {
 
     @PostMapping("/users")
     void addUser(@RequestBody User user) {
-        System.out.println("Hola");
+        System.out.println("lfhdsglkjfedhgfkujghdgklj");
         User userFinal = new User(user.getName(),user.getEmail());
         userRepository.save(userFinal);
     }

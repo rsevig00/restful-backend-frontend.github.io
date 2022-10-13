@@ -24,17 +24,16 @@ export class UsuarioService {
     let params = new HttpParams();
     params = params.append('_id', id);
     return this.http.delete(this.usersUrl, {params: params});
-    
   }
   agregarUsuario(user: Usuario){
     console.log("Usuario del serevicio", user)
-    return this.http.post(this.usersUrl, user);
+    return this.http.post(this.usersUrl, user).subscribe();
   }
 
   editarUsuario(usuario: Usuario, index: number){
     let params = new HttpParams();
     params = params.append('_id', index);
-    return this.http.put(this.usersUrl, usuario, {params: params});
+    return this.http.put(this.usersUrl, usuario, {params: params}).subscribe();
   }
     
       

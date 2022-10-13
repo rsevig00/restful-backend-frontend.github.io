@@ -4,6 +4,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Usuario } from 'src/app/interfaces/usuario';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { UsersComponent } from '../../users/users.component';
+import { CommonService } from 'src/app/services/share-service.service';
+
 
 @Component({
   selector: 'app-confirm-dialog-e',
@@ -18,6 +20,7 @@ export class ConfirmDialogEComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public editData: any,
     private fb: FormBuilder,
     private _usuarioService: UsuarioService,
+    private _commonService: CommonService
   ) { 
     this.form = this.fb.group({
       name: ['', Validators.required],
@@ -36,6 +39,11 @@ export class ConfirmDialogEComponent implements OnInit {
         email: this.editData.email
       })
     }
+  }
+
+  sendMessage(): void {
+    
+    this._commonService.sendUpdate('Message from Sender Component to Receiver Component!');
   }
 
   onClickCancelar(){
