@@ -30,10 +30,9 @@ export class UsuarioService {
     return this.http.post(this.usersUrl, user).subscribe();
   }
 
-  editarUsuario(usuario: Usuario, index: number){
+  editarUsuario(usuario: Usuario){
     let params = new HttpParams();
-    params = params.append('_id', index);
-    return this.http.put(this.usersUrl, usuario, {params: params}).subscribe();
+    return this.http.put(this.usersUrl, usuario).subscribe();
   }
     
       

@@ -59,7 +59,7 @@ export class ConfirmDialogEComponent implements OnInit {
       email: this.form.value.email,
       
     }
-    this._usuarioService.editarUsuario(usuario, this.editData.id);
+    this._usuarioService.editarUsuario(usuario);
     this.dialogRef.close();
 
   }
