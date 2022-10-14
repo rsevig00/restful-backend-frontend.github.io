@@ -6,7 +6,7 @@ COPY . .
 
 RUN npm install -g @angular/cli@latest && \ 
     npm install && \
-    ng serve -o 
+    npm run build
 
 FROM nginx:alpine
 
