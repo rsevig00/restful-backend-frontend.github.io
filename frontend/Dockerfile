@@ -4,8 +4,9 @@ WORKDIR /app
 
 COPY . .
 
-RUN npm install && \
-    npm run build
+RUN npm install -g @angular/cli@latest && \ 
+    npm install && \
+    ng serve -o 
 
 FROM nginx:alpine
 
