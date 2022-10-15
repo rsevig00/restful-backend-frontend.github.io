@@ -1,18 +1,18 @@
 version: "3.9"
 services:
     backend:
-        image: demo
-        container_name: demo
+        image: backend
+        container_name: backend
         build:
             context: ./backend/microservice
         ports:
             - "8080:80"
     frontend:
-        image: demo-ui
-        container_name: demo-ui
+        image: frontend
+        container_name: frontend  
         build:
             context: ./frontend
         ports:
-            - "4200:81"
+            - "4200:80"
         depends_on:
             - backend 
