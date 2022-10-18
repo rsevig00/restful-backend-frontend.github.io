@@ -17,6 +17,7 @@ import com.microservices.microservice.model.entitys.User;
 import com.microservices.microservice.model.entitys.UserRepository;
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
+@RequestMapping("/api")
 public class UserController {
 
     // standard constructors

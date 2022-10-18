@@ -12,28 +12,28 @@ export class UsuarioService {
   listUsuarios: Usuario[] = [];
 
   private usersUrl: string;
-  
-  constructor(private http: HttpClient) { 
-    this.usersUrl = 'http://localhost:8080/users';
+
+  constructor(private http: HttpClient) {
+    this.usersUrl = '/api/users';
   }
 
-  getUsuarios():Observable<Usuario[]>{
+  getUsuarios(): Observable<Usuario[]> {
     return this.http.get<Usuario[]>(this.usersUrl);
   }
-  eliminarUsuario(id: number){
+  eliminarUsuario(id: number) {
     let params = new HttpParams();
     params = params.append('_id', id);
-    return this.http.delete(this.usersUrl, {params: params});
+    return this.http.delete(this.usersUrl, { params: params });
   }
-  agregarUsuario(user: Usuario){
+  agregarUsuario(user: Usuario) {
     console.log("Usuario del serevicio", user)
     return this.http.post(this.usersUrl, user).subscribe();
   }
 
-  editarUsuario(usuario: Usuario){
+  editarUsuario(usuario: Usuario) {
     let params = new HttpParams();
     return this.http.put(this.usersUrl, usuario).subscribe();
   }
-    
-      
+
+
 }
