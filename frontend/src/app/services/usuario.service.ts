@@ -14,7 +14,7 @@ export class UsuarioService {
   private usersUrl: string;
 
   constructor(private http: HttpClient) {
-    this.usersUrl = '/api/users';
+    this.usersUrl = 'http://localhost:8080/api/users';
   }
 
   getUsuarios(): Observable<Usuario[]> {
