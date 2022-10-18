@@ -20,7 +20,7 @@ export class UsersComponent implements OnInit {
 
   listUsuarios: Usuario[] = [];
 
-  displayedColumns: string[] = ['id', 'name', 'email', 'acciones'];	
+  displayedColumns: string[] = ['id', 'name', 'email', 'password' ,'acciones'];	
   dataSource = new MatTableDataSource<Usuario>();
 
 

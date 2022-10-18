@@ -33,7 +33,7 @@ public class UserController {
     @PostMapping("/users")
     void addUser(@RequestBody User user) {
         System.out.println("lfhdsglkjfedhgfkujghdgklj");
-        User userFinal = new User(user.getName(),user.getEmail());
+        User userFinal = new User(user.getName(),user.getEmail(),user.getPassword());
         userRepository.save(userFinal);
     }
     
@@ -50,6 +50,7 @@ public class UserController {
         // This should throw NullPointerException if no user is found with the ID
         user.setName(updatedUser.getName());
         user.setEmail(updatedUser.getEmail());
+        user.setPassword(updatedUser.getPassword());
         userRepository.save(user);
     }
 }
