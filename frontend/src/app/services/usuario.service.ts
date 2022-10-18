@@ -21,9 +21,7 @@ export class UsuarioService {
     return this.http.get<Usuario[]>(this.usersUrl);
   }
   eliminarUsuario(id: number) {
-    let params = new HttpParams();
-    params = params.append('_id', id);
-    return this.http.delete(this.usersUrl, { params: params });
+    return this.http.delete<number>(this.usersUrl+"/"+id);
   }
   agregarUsuario(user: Usuario) {
     console.log("Usuario del serevicio", user)
