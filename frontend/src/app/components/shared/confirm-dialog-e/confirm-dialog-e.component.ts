@@ -24,7 +24,8 @@ export class ConfirmDialogEComponent implements OnInit {
   ) { 
     this.form = this.fb.group({
       name: ['', Validators.required],
-      email: ['', Validators.required]
+      email: ['', Validators.required],
+      password: ['', Validators.required]
     });
   }
 
@@ -36,7 +37,8 @@ export class ConfirmDialogEComponent implements OnInit {
     if(this.editData){
       this.form.patchValue({
         name: this.editData.name,
-        email: this.editData.email
+        email: this.editData.email,
+        password: this.editData.password
       })
     }
   }
@@ -57,7 +59,7 @@ export class ConfirmDialogEComponent implements OnInit {
       id: this.editData.id,
       name: this.form.value.name,
       email: this.form.value.email,
-      
+      password: this.form.value.password
     }
     this._usuarioService.editarUsuario(usuario);
     this.dialogRef.close();

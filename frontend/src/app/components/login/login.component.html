@@ -1,0 +1,32 @@
+<div>
+  <mat-toolbar class="toolbar" >
+    <span class="title-center">Microservicios App</span>
+  </mat-toolbar>
+</div>
+<div class="image">
+  <img src="../../../assets/foto.png" style="width: 1000px;">
+</div>
+<div class="card">
+  <mat-card>
+    <mat-card-title class="title"><p style="font-size: x-large;">Iniciar sesión<p></mat-card-title>
+    <mat-card-content>
+      <div class="inputs">
+        <form [formGroup]="form" (submit)="submit()">
+          <p>
+            <mat-form-field class="input-name"  style="width: 100%;">
+              <mat-label>Username</mat-label>
+              <input matInput autocomplete="off" formControlName="username">
+            </mat-form-field>
+          </p>
+          <p>
+            <mat-form-field class="input-password"  style="width: 100%;">
+              <mat-label>Contraseña</mat-label>
+              <input matInput autocomplete="off" formControlName="password">
+            </mat-form-field>
+          </p>
+          <button class= "submit" type="submit" [disabled]="form.invalid" mat-raised-button color="primary">Aceptar</button>
+        </form>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
