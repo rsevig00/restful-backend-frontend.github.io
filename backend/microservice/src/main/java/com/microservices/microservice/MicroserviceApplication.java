@@ -1,5 +1,6 @@
 package com.microservices.microservice;
 
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.springframework.boot.CommandLineRunner;
@@ -22,11 +23,15 @@ public class MicroserviceApplication {
 	}
 	 
 	@Bean
-	    CommandLineRunner init(UserRepository userRepository) {
-	        return args -> {
+	    CommandLineRunner init(UserRepository userRepository) {    
+			return args -> {
 	            Stream.of("admin").forEach(name -> {
-	                User user = new User(name, name.toLowerCase() + "@domain.com","admin");
-	                userRepository.save(user);
+	            	User user = new User(name, name.toLowerCase() + "@domain.com","admin");
+	            	Optional<User> var = userRepository.findByUsername(name);
+	            	
+	            	if(var.isEmpty()) {
+		                userRepository.save(user);
+	    	        } 
 	            });
 	            userRepository.findAll().forEach(System.out::println);
 	        };
