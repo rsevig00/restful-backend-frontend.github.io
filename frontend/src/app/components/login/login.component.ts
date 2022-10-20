@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClient, HttpParams } from '@angular/common/http'
 import { Usuario } from 'src/app/interfaces/usuario';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +20,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private http: HttpClient
+    private http: HttpClient,
+    private _authService: AuthService
     ) { 
     this.usersUrl = 'http://localhost:8080/api/users';
     this.form = this.fb.group({
@@ -34,16 +36,7 @@ export class LoginComponent implements OnInit {
     console.log("username is " + this.form.value.username);
     console.log("password is " + this.form.value.password);
     console.log("form is " + this.form.value);
-    const user = {
-      username: this.form.value.username,
-      password: this.form.value.password
-    }
-    this.http.post('http://localhost:8080/login', user).subscribe(
-      response => {
-        console.log(response);
-      },
-    );
-    this.router.navigate(['/home']);
+    this._authService.login(this.form.value.username, this.form.value.password);
   }
   clear(){
     this.form.value.username = "";

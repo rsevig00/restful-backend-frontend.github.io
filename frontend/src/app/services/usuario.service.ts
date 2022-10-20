@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Usuario } from '../interfaces/usuario';
-import { HttpClient, HttpParams } from '@angular/common/http'
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http'
 import { Observable, Subject } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 
@@ -12,25 +12,26 @@ export class UsuarioService {
   listUsuarios: Usuario[] = [];
 
   private usersUrl: string;
+  private headers = new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem("auth_token")}`);
 
   constructor(private http: HttpClient) {
     this.usersUrl = 'http://localhost:8080/api/users';
   }
 
   getUsuarios(): Observable<Usuario[]> {
-    return this.http.get<Usuario[]>(this.usersUrl);
+    return this.http.get<Usuario[]>(this.usersUrl, { headers: this.headers });
   }
   eliminarUsuario(id: number) {
-    return this.http.delete<number>(this.usersUrl+"/"+id);
+    return this.http.delete<number>(this.usersUrl+"/"+id, { headers: this.headers });
   }
   agregarUsuario(user: Usuario) {
     console.log("Usuario del serevicio", user)
-    return this.http.post(this.usersUrl, user).subscribe();
+    return this.http.post(this.usersUrl, user, { headers: this.headers }).subscribe();
   }
 
   editarUsuario(usuario: Usuario) {
     let params = new HttpParams();
-    return this.http.put(this.usersUrl, usuario).subscribe();
+    return this.http.put(this.usersUrl, usuario, { headers: this.headers }).subscribe();
   }
 
 
