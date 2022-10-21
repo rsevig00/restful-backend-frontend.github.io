@@ -32,11 +32,7 @@ public class UserController {
 
     @GetMapping("/users")
     public List<User> getUsers() {
-    	List<User> listaUsuariosCompleta =  (List<User>) userRepository.findAll();
-    	for(User usuario : listaUsuariosCompleta) {
-    		
-    	}
-    	return null;
+        return (List<User>) userRepository.findAll();
     }
 
     @PostMapping("/users")
