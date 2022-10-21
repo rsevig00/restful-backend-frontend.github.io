@@ -3,6 +3,9 @@ package com.microservices.microservice.rest;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,9 +14,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.microservices.microservice.model.entitys.User;
 import com.microservices.microservice.model.entitys.UserRepository;
 @RestController
@@ -24,6 +27,8 @@ public class UserController {
     // standard constructors
     @Autowired
     private final UserRepository userRepository = null;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping("/users")
     public List<User> getUsers() {
@@ -32,8 +37,8 @@ public class UserController {
 
     @PostMapping("/users")
     void addUser(@RequestBody User user) {
-        System.out.println("lfhdsglkjfedhgfkujghdgklj");
         User userFinal = new User(user.getName(),user.getEmail(),user.getPassword());
+        userFinal.setPassword(passwordEncoder.encode(userFinal.getPassword()));
         userRepository.save(userFinal);
     }
     
@@ -51,6 +56,7 @@ public class UserController {
         user.setName(updatedUser.getName());
         user.setEmail(updatedUser.getEmail());
         user.setPassword(updatedUser.getPassword());
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
-    }
+    }  
 }
