@@ -58,7 +58,5 @@ public class UserController {
         user.setPassword(updatedUser.getPassword());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
-    }
-    
-    
+    }  
 }
