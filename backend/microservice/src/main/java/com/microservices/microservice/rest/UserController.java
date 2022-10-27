@@ -36,7 +36,7 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    void addUser(@RequestBody User user) {
+    public void addUser(@RequestBody User user) {
         User userFinal = new User(user.getName(),user.getEmail(),user.getPassword());
         userFinal.setPassword(passwordEncoder.encode(userFinal.getPassword()));
         userRepository.save(userFinal);
@@ -45,12 +45,12 @@ public class UserController {
     @DeleteMapping("/users/{id}")
     @ResponseBody
     //Solo funciona si el parametro tiene el mismo nombre que la variable
-    void removeUser(@PathVariable Long id) {
+    public void removeUser(@PathVariable Long id) {
         userRepository.deleteById(id);
     }
      
     @PutMapping("/users")
-    void modifyUser(@RequestBody User updatedUser) {
+    public void modifyUser(@RequestBody User updatedUser) {
         User user = userRepository.findById(updatedUser.getId()).orElse(null);
         // This should throw NullPointerException if no user is found with the ID
         user.setName(updatedUser.getName());

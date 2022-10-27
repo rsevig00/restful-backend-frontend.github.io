@@ -55,12 +55,17 @@ export class UsersComponent implements OnInit {
   eliminarUsuario(index: number){
     console.log(index);
     
-    this._usuarioService.eliminarUsuario(index).subscribe(
-      data => {
-        console.log(data);
-        this._usuarioService.getUsuarios().subscribe((res: any) => {
-          this.dataSource.data = res});
-      })
+    if(index !=  parseInt(localStorage.getItem("activeID")!)){
+      console.log("Index a eliminar ", index, " id del usuario logueado ", localStorage.getItem("activeID"));
+      this._usuarioService.eliminarUsuario(index).subscribe(
+        data => {
+          console.log(data);
+          this._usuarioService.getUsuarios().subscribe((res: any) => {
+            this.dataSource.data = res});
+        })
+    } else {
+      alert("No puedes eliminar tu usuario");
+    }
     
   }
 

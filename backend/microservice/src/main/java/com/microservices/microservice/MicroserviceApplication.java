@@ -19,38 +19,37 @@ import com.microservices.microservice.rest.UserController;
 
 @SpringBootApplication
 public class MicroserviceApplication {
-	
-	 @Autowired
-	 private PasswordEncoder passwordEncoder;
-	 
-	public static void main(String[] args) {
-		SpringApplication.run(MicroserviceApplication.class, args);
-		
-	}
-	 
-	@Bean
-	    CommandLineRunner init(UserRepository userRepository) {    
-			return args -> {
-	            Stream.of("admin").forEach(name -> {
-	            	User user = new User(name, name.toLowerCase() + "@domain.com",passwordEncoder.encode("admin"));
-	            	Optional<User> var = userRepository.findByUsername(name);
-	            	
-	            	if(var.isEmpty()) {
-		                userRepository.save(user);
-	    	        } 
-	            });
-	            userRepository.findAll().forEach(System.out::println);
-	        };
-	    }
-	
-	@Bean
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    public static void main(String[] args) {
+        SpringApplication.run(MicroserviceApplication.class, args);
+    }
+
+    @Bean
+    CommandLineRunner init(UserRepository userRepository) {
+        return args -> {
+            Stream.of("admin").forEach(name -> {
+                User user = new User(name, name.toLowerCase() + "@domain.com", passwordEncoder.encode("admin"));
+                Optional<User> var = userRepository.findByUsername(name);
+
+                if (var.isEmpty()) {
+                    userRepository.save(user);
+                }
+            });
+            userRepository.findAll().forEach(System.out::println);
+        };
+    }
+
+    @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("*").allowedMethods("GET", "POST","PUT", "DELETE");
+                registry.addMapping("/**").allowedOrigins("*").allowedMethods("GET", "POST", "PUT", "DELETE");
             }
         };
     }
-	
+
 }
