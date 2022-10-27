@@ -22,7 +22,7 @@ export class UsersComponent implements OnInit {
 
   displayedColumns: string[] = ['id', 'name', 'email', 'password' ,'acciones'];	
   dataSource = new MatTableDataSource<Usuario>();
-
+  
 
   constructor(
     private _usuarioService: UsuarioService,
@@ -32,7 +32,7 @@ export class UsersComponent implements OnInit {
         (message => { 
         this.messageReceived = message;
         console.log("Message received: ", this.messageReceived);
-        this.cargarUsuarios();
+        //this.cargarUsuarios();
       });
     }
 
@@ -49,17 +49,23 @@ export class UsersComponent implements OnInit {
     console.log("Cargando usuarios");
     this._usuarioService.getUsuarios().subscribe((res: any) => {
       this.dataSource.data = res});
+    console.log("data source", this.dataSource.data);
   }
 
   eliminarUsuario(index: number){
     console.log(index);
     
-    this._usuarioService.eliminarUsuario(index).subscribe(
-      data => {
-        console.log(data);
-        this._usuarioService.getUsuarios().subscribe((res: any) => {
-          this.dataSource.data = res});
-      })
+    if(index !=  parseInt(localStorage.getItem("activeID")!)){
+      console.log("Index a eliminar ", index, " id del usuario logueado ", localStorage.getItem("activeID"));
+      this._usuarioService.eliminarUsuario(index).subscribe(
+        data => {
+          console.log(data);
+          this._usuarioService.getUsuarios().subscribe((res: any) => {
+            this.dataSource.data = res});
+        })
+    } else {
+      alert("No puedes eliminar tu usuario");
+    }
     
   }
 
@@ -69,8 +75,9 @@ export class UsersComponent implements OnInit {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: "Formulario ususario"
     });
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(async result => {
       console.log(`Dialog result: ${result}`);
+      await new Promise(f => setTimeout(f, 100));
       this.cargarUsuarios();
     });
   }
@@ -81,9 +88,10 @@ export class UsersComponent implements OnInit {
       data: element,
 
     });
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(async result => {
       console.log(`Dialog result: ${result}`);
       console.log("Formulario editar", this._usuarioService.getUsuarios());
+      await new Promise(f => setTimeout(f, 100));
       this.cargarUsuarios();
     });
   }

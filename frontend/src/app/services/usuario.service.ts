@@ -10,6 +10,7 @@ import { catchError, retry } from 'rxjs/operators';
 export class UsuarioService {
 
   listUsuarios: Usuario[] = [];
+  usuarioActivo: String | undefined;
 
   private usersUrl: string;
   private headers = new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem("auth_token")}`);
@@ -25,6 +26,7 @@ export class UsuarioService {
     return this.http.delete<number>(this.usersUrl+"/"+id, { headers: this.headers });
   }
   agregarUsuario(user: Usuario) {
+
     console.log("Usuario del serevicio", user)
     return this.http.post(this.usersUrl, user, { headers: this.headers }).subscribe();
   }
@@ -34,5 +36,8 @@ export class UsuarioService {
     return this.http.put(this.usersUrl, usuario, { headers: this.headers }).subscribe();
   }
 
+  actualizarUsuarioActivo(usuarioName: String) {
+    this.usuarioActivo = usuarioName;
+  }
 
 }

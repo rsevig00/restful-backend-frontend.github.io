@@ -16,12 +16,14 @@ export class LoginComponent implements OnInit {
   form: FormGroup;
 
   private usersUrl: string;
+  public showPassword: boolean = false;
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private http: HttpClient,
-    private _authService: AuthService
+    private _authService: AuthService,
+    
     ) { 
     this.usersUrl = 'http://localhost:8080/api/users';
     this.form = this.fb.group({
@@ -41,6 +43,9 @@ export class LoginComponent implements OnInit {
   clear(){
     this.form.value.username = "";
     this.form.value.password = "";
+  }
+  public togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
   }
 
 }
