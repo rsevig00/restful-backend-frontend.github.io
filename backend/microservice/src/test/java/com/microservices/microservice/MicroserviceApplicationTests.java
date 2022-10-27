@@ -10,10 +10,10 @@ import com.microservices.microservice.rest.UserController;
 
 @SpringBootTest
 class MicroserviceApplicationTests {
-   
+
     @Autowired
     private UserController controller;
-    
+
     @Test
     public void contextLoads() {
         assertThat(controller).isNotNull();
