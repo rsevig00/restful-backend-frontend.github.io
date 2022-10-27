@@ -16,7 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc(addFilters = false)
-public class UserControllerIntegrationTest{
+public class UserControllerIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -37,8 +37,8 @@ public class UserControllerIntegrationTest{
                 .put("password", "diego")
                 .toString();
         this.mockMvc.perform(post("http://localhost/api/users")
-                .content(jsonString)
-                .contentType(MediaType.APPLICATION_JSON)).andDo(print())
+                        .content(jsonString)
+                        .contentType(MediaType.APPLICATION_JSON)).andDo(print())
                 .andExpect(status().is2xxSuccessful())
                 .andReturn();
         this.mockMvc.perform(delete("http://localhost/api/users/2")).andDo(print()).andExpect(status().isOk());
