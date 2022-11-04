@@ -47,7 +47,8 @@ export class UsersComponent implements OnInit {
 
   cargarUsuarios(){
     console.log("Cargando usuarios");
-    this._usuarioService.getUsuarios().subscribe((res: any) => {
+    this._usuarioService.getUsuarios().subscribe(async (res: any) => {
+      await new Promise(f => setTimeout(f, 100));
       this.dataSource.data = res});
     console.log("data source", this.dataSource.data);
   }
@@ -60,7 +61,8 @@ export class UsersComponent implements OnInit {
       this._usuarioService.eliminarUsuario(index).subscribe(
         data => {
           console.log(data);
-          this._usuarioService.getUsuarios().subscribe((res: any) => {
+          this._usuarioService.getUsuarios().subscribe(async (res: any) => {
+            await new Promise(f => setTimeout(f, 100));
             this.dataSource.data = res});
         })
     } else {
