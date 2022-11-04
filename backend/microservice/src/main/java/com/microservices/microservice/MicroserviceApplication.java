@@ -1,21 +1,18 @@
 package com.microservices.microservice;
 
-import java.util.Optional;
-import java.util.stream.Stream;
-
+import com.microservices.microservice.model.entitys.User;
+import com.microservices.microservice.model.entitys.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.microservices.microservice.model.entitys.User;
-import com.microservices.microservice.model.entitys.UserRepository;
-import com.microservices.microservice.rest.UserController;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 @SpringBootApplication
 public class MicroserviceApplication {
@@ -52,4 +49,12 @@ public class MicroserviceApplication {
         };
     }
 
+    //Disabling security
+    /*
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring()
+                .antMatchers("/**");
+    }
+    */
 }

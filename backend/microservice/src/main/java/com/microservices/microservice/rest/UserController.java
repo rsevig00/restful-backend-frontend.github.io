@@ -1,24 +1,12 @@
 package com.microservices.microservice.rest;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.microservices.microservice.model.entitys.User;
 import com.microservices.microservice.model.entitys.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api")
@@ -36,10 +24,17 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    public void addUser(@RequestBody User user) {
-        User userFinal = new User(user.getName(),user.getEmail(),user.getPassword());
-        userFinal.setPassword(passwordEncoder.encode(userFinal.getPassword()));
-        userRepository.save(userFinal);
+    public String addUser(@RequestBody User user) {
+        //check if username exists
+        System.out.println(userRepository.findByUsername(user.getName()).toString());
+        if(!userRepository.findByUsername(user.getName()).isEmpty()){
+            return "Username already exists";
+        } else {
+            User userFinal = new User(user.getName(),user.getEmail(),user.getPassword());
+            userFinal.setPassword(passwordEncoder.encode(userFinal.getPassword()));
+            userRepository.save(userFinal);
+            return "User added";
+        }
     }
     
     @DeleteMapping("/users/{id}")
