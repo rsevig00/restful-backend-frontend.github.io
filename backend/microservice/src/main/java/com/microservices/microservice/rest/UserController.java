@@ -26,9 +26,11 @@ public class UserController {
     @PostMapping("/users")
     public String addUser(@RequestBody User user) {
         //check if username exists
-        System.out.println(userRepository.findByUsername(user.getName()).toString());
-        if(!userRepository.findByUsername(user.getName()).isEmpty()){
+        System.out.println(user.getName());
+        if (!userRepository.findByUsername(user.getName()).isEmpty()) {
             return "Username already exists";
+        } else if(!userRepository.findByEmail(user.getEmail()).isEmpty()){
+            return "Email already exists";
         } else {
             User userFinal = new User(user.getName(),user.getEmail(),user.getPassword());
             userFinal.setPassword(passwordEncoder.encode(userFinal.getPassword()));
