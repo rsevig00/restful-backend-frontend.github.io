@@ -46,6 +46,15 @@ export class ConfirmDialogComponent implements OnInit {
   agregarUsuario(){
     console.log(this.form.value);
 
+    let status = this.validarPassword();
+
+    console.log("Despues funcion", status);
+
+    if(status.length > 0){
+      alert(status);
+      return;
+    }
+    
     const usuario: Usuario = {
       id: Math.floor(Math.random() * 1000),
       name: this.form.value.name,
@@ -53,10 +62,49 @@ export class ConfirmDialogComponent implements OnInit {
       password: this.form.value.password
     }
 
-    this._usuarioService.agregarUsuario(usuario);
+    let responsePost = this._usuarioService.agregarUsuario(usuario);
+    
+
     this.sendMessage();
 
     this.dialogRef.close();
+  }
+
+  validarPassword() {
+
+    const password = this.form.value.password;
+    var numeros = new RegExp('^(?=.*[0-9])');
+    var minusculas = new RegExp('^(?=.*[a-z])');
+    var mayusculas = new RegExp('^(?=.*[A-Z])');
+    var caracteres = new RegExp('^(?=.*[!@#$%^&*])');
+    let mensaje = new String("");
+
+    if (8 > password.length && password.length <= 32) {
+      mensaje = mensaje.concat("La contraseña debe tener entre 8 y 32 caracteres.\n");
+      console.log("La contraseña debe tener entre 8 y 32 caracteres");
+    }
+
+    if(!numeros.test(password)){
+      mensaje = mensaje.concat("La contraseña debe tener al menos un número.\n");
+      console.log("La contraseña debe tener al menos un número");
+    }
+
+    if(!minusculas.test(password)){
+      mensaje = mensaje.concat("La contraseña debe tener al menos una minúscula.\n");
+      console.log("La contraseña debe tener al menos una minúscula");
+    }
+
+    if(!mayusculas.test(password)){
+      mensaje = mensaje.concat("La contraseña debe tener al menos una mayúscula.\n");
+      console.log("La contraseña debe tener al menos una mayúscula");
+    }
+
+    if(!caracteres.test(password)){
+      mensaje = mensaje.concat("La contraseña debe tener al menos un caracter especial.\n");
+      console.log("La contraseña debe tener al menos un caracter especial");
+    }
+    console.log("Antes funcion", mensaje);
+    return mensaje;
 
   }
 

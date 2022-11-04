@@ -59,11 +59,9 @@ export class UsersComponent implements OnInit {
     if(index !=  parseInt(localStorage.getItem("activeID")!)){
       console.log("Index a eliminar ", index, " id del usuario logueado ", localStorage.getItem("activeID"));
       this._usuarioService.eliminarUsuario(index).subscribe(
-        data => {
+        async data => {
           console.log(data);
-          this._usuarioService.getUsuarios().subscribe(async (res: any) => {
-            await new Promise(f => setTimeout(f, 100));
-            this.dataSource.data = res});
+          await this.cargarUsuarios();
         })
     } else {
       alert("No puedes eliminar tu usuario");
@@ -79,8 +77,7 @@ export class UsersComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(async result => {
       console.log(`Dialog result: ${result}`);
-      await new Promise(f => setTimeout(f, 100));
-      this.cargarUsuarios();
+      await this.cargarUsuarios();
     });
   }
 
@@ -93,8 +90,8 @@ export class UsersComponent implements OnInit {
     dialogRef.afterClosed().subscribe(async result => {
       console.log(`Dialog result: ${result}`);
       console.log("Formulario editar", this._usuarioService.getUsuarios());
-      await new Promise(f => setTimeout(f, 100));
-      this.cargarUsuarios();
+      await this.cargarUsuarios();
+
     });
   }
 
