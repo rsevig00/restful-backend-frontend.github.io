@@ -16,15 +16,15 @@ export class UsuarioService {
   private headers = new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem("auth_token")}`);
 
   constructor(private http: HttpClient) {
-    this.usersUrl = 'http://localhost:8080/api/users'; //Ejecucion en local
-    //this.usersUrl = '/api/users'; //ejecucion en docker
+    // this.usersUrl = 'http://localhost:8080/api/users'; //Ejecucion en local
+    this.usersUrl = '/api/users'; //ejecucion en docker
   }
 
   getUsuarios(): Observable<Usuario[]> {
     return this.http.get<Usuario[]>(this.usersUrl, { headers: this.headers });
   }
   eliminarUsuario(id: number) {
-    return this.http.delete<number>(this.usersUrl+"/"+id, { headers: this.headers });
+    return this.http.delete<number>(this.usersUrl + "/" + id, { headers: this.headers });
   }
   agregarUsuario(user: Usuario) {
 

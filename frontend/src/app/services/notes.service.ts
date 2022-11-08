@@ -14,15 +14,15 @@ export class NotesService {
   private headers = new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem("auth_token")}`);
 
   constructor(private http: HttpClient) {
-    this.notesUrl = 'http://localhost:8080/api/notes'; //Ejecucion en local
-    //this.notesUrl = '/api/notes'; //ejecucion en docker
+    // this.notesUrl = 'http://localhost:8080/api/notes'; //Ejecucion en local
+    this.notesUrl = '/api/notes'; //ejecucion en docker
   }
 
-  getNotes(): Observable<Notes[]> { 
+  getNotes(): Observable<Notes[]> {
     return this.http.get<Notes[]>(this.notesUrl, { headers: this.headers });
   }
   eliminarNotes(id: number) {
-    return this.http.delete<number>(this.notesUrl+"/"+id, { headers: this.headers });
+    return this.http.delete<number>(this.notesUrl + "/" + id, { headers: this.headers });
   }
   agregarNotes(note: Notes) {
 

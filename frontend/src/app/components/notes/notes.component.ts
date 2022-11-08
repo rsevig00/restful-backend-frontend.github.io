@@ -21,65 +21,57 @@ export class NotesComponent implements OnInit {
   messageReceived: any;
   private subscriptionName: Subscription;
 
-  listnotes: Notes[] = [
-    {id: 1, title: "Nota 1", body: "Descripcion 1", date: new Date("2021-01-01")},
-    {id: 2, title: "Nota 2", body: "Descripcion 2", date: new Date("2021-01-02")},
-    {id: 3, title: "Nota 3", body: "Descripcion 3", date: new Date("2021-01-03")},
-    {id: 4, title: "Nota 4", body: "Descripcion 4", date: new Date("2021-01-04")},
-    {id: 5, title: "Nota 5", body: "Descripcion 5", date: new Date("2021-01-05")},
-    {id: 6, title: "Nota 6", body: "Descripcion 6", date: new Date("2021-01-06")},
-  ];
+  listnotes: Notes[] = [];
 
-  displayedColumns: string[] = ['id', 'title', 'body', 'date' ,'acciones'];	
+  displayedColumns: string[] = ['id', 'title', 'body', 'date', 'acciones'];
   dataSource = new MatTableDataSource<Notes>();
-  
+
 
   constructor(
     private _notesService: NotesService,
     public dialog: MatDialog,
     private _commonService: CommonService,
-    private router: Router) { 
-      this.subscriptionName= this._commonService.getUpdate().subscribe
-        (message => { 
+    private router: Router) {
+    this.subscriptionName = this._commonService.getUpdate().subscribe
+      (message => {
         this.messageReceived = message;
         console.log("Message received: ", this.messageReceived);
         //this.cargarNotes();
       });
-    }
-
-  ngOnInit(): void {
-    // this._notesService.getNotes().subscribe((res: any) => {
-    //   this.dataSource.data = res});
-    this.dataSource.data = this.listnotes;
   }
 
-  ngOnDestroy() { 
+  ngOnInit(): void {
+    this._notesService.getNotes().subscribe((res: any) => {
+      this.dataSource.data = res
+    });
+  }
+
+  ngOnDestroy() {
     this.subscriptionName.unsubscribe();
   }
 
-  cargarNotas(){
-    // console.log("Cargando Notes");
-    // this._notesService.getNotes().subscribe(async (res: any) => {
-    //   await new Promise(f => setTimeout(f, 100));
-    //   this.dataSource.data = res});
-    // console.log("data source", this.dataSource.data);
-    this.dataSource.data = this.listnotes;
+  cargarNotas() {
+    console.log("Cargando Notes");
+    this._notesService.getNotes().subscribe(async (res: any) => {
+      await new Promise(f => setTimeout(f, 100));
+      this.dataSource.data = res
+    });
+    console.log("data source", this.dataSource.data);
+
   }
 
-  eliminarNotas(index: number){
-    // console.log(index);
-    
-    // this._notesService.eliminarNotes(index).subscribe(
-    //   async data => {
-    //     console.log(data);
-    //     await this.cargarNotas();
-    //   })
-    this.listnotes.splice(index, 1);
-    this.cargarNotas();
+  eliminarNotas(index: number) {
+    console.log(index);
+
+    this._notesService.eliminarNotes(index).subscribe(
+      async data => {
+        console.log(data);
+        await this.cargarNotas();
+      })
   }
 
 
-  openDialog(){
+  openDialog() {
 
     const dialogRef = this.dialog.open(ConfirmDialogNComponent, {
       data: "Formulario ususario"
@@ -90,7 +82,7 @@ export class NotesComponent implements OnInit {
     });
   }
 
-  openDialogE(element: any){
+  openDialogE(element: any) {
 
     const dialogRef = this.dialog.open(ConfirmDialogNEComponent, {
       data: element,
@@ -104,12 +96,12 @@ export class NotesComponent implements OnInit {
     });
   }
 
-  logOut(){
+  logOut() {
     localStorage.removeItem('auth_token');
     this.router.navigate(['']);
   }
 
-  navigateToUsers(){
+  navigateToUsers() {
     this.router.navigate(['/home']);
   }
 

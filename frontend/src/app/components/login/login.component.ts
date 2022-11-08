@@ -12,7 +12,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class LoginComponent implements OnInit {
 
-  
+
   form: FormGroup;
 
   private usersUrl: string;
@@ -23,24 +23,24 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private http: HttpClient,
     private _authService: AuthService,
-    
-    ) { 
+
+  ) {
     this.usersUrl = 'http://localhost:8080/api/users';
     this.form = this.fb.group({
       username: ['', Validators.required],
       password: ['', Validators.required]
     });
-   }
+  }
 
   ngOnInit(): void {
   }
-  submit(){
+  submit() {
     console.log("username is " + this.form.value.username);
     console.log("password is " + this.form.value.password);
     console.log("form is " + this.form.value);
     this._authService.login(this.form.value.username, this.form.value.password);
   }
-  clear(){
+  clear() {
     this.form.value.username = "";
     this.form.value.password = "";
   }
