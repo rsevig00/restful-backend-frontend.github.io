@@ -5,9 +5,11 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
 import { LoginComponent } from './components/login/login.component';
 import { AuthGuard } from './auth-guard';
 import { AuthService } from './services/auth.service';
+import { NotesComponent } from './components/notes/notes.component';
 
 const routes: Routes = [
   {path: 'home', canActivate:[AuthGuard], component: HomeComponent},
+  {path: 'notes', canActivate:[AuthGuard], component: NotesComponent},
   {path: '', component: LoginComponent},
   { path: '**', pathMatch: 'full', 
         component: PageNotFoundComponent },

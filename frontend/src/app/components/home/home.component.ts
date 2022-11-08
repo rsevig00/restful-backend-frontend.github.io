@@ -30,5 +30,9 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['']);
   }
 
+  navigateToNotes(){
+    this.router.navigate(['notes']);
+  }
+
 
 }

@@ -1,0 +1,45 @@
+table {
+    width: 100%;
+    align-items: center;
+    margin-top: 0px;
+  }
+
+  th {
+    width: 20%;
+  }
+
+  .boton-agregar {
+    margin-top: 20px;
+    color: white;
+    background-color:  #55beff ;
+    width: 140px;
+    height: 50px;
+    font-size: 25px;
+    
+  }
+
+  div.center {
+    text-align: center;
+  }
+
+  .title-center {
+    flex: 1 1 auto;
+    text-align: center;
+    font-size: 34px;
+    font-weight: 500;
+  }
+    
+
+  .example-card {
+    max-width: 400px;
+    margin-top: 20px;
+    margin-left: 8px;
+  }
+
+  .toolbar {
+    background-color:   #55beff  ;
+    color: white;
+    width: 100%;
+    height: 70px;
+    text-align: center;
+  }

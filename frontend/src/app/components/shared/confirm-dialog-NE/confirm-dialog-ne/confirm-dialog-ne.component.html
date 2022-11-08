@@ -1,0 +1,29 @@
+<div class="dialog">
+    <div mat-dialog-content>
+      Editar nota
+    </div>
+    <div class="inputs">
+      <form [formGroup]="form" (submit) = "editarNota()">
+        <p>
+          <mat-form-field appearance="outline" style="width: 100%;">
+            <mat-label>Titulo</mat-label>
+            <input matInput autocomplete="off" formControlName="title">
+          </mat-form-field>
+        </p>
+        <p>
+          <mat-form-field appearance="outline" style="width: 100%;">
+            <mat-label>Descripcion</mat-label>
+            <input matInput autocomplete="off" formControlName="body">
+          </mat-form-field>
+        </p>
+        <p>
+          <mat-form-field appearance="outline" style="width: 100%;">
+            <mat-label>Fecha</mat-label>
+            <input matInput autocomplete="off" formControlName="date">
+          </mat-form-field>
+        </p>
+        <button type="submit" [disabled]="form.invalid" mat-raised-button color="primary" >Aceptar</button>
+        <button mat-raised-button (click)="onClickCancelar()" style="margin-left: 15px;">Cancelar</button>
+      </form>
+    </div>
+  </div>

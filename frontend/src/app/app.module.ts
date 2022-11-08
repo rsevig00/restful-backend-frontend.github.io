@@ -16,6 +16,9 @@ import { UsersComponent } from './components/users/users.component';
 import { ConfirmDialogComponent } from './components/shared/confirm-dialog/confirm-dialog.component';
 import { ConfirmDialogEComponent } from './components/shared/confirm-dialog-e/confirm-dialog-e.component';
 import { LoginComponent } from './components/login/login.component';
+import { NotesComponent } from './components/notes/notes.component';
+import { ConfirmDialogNComponent } from './components/shared/confirm-dialog-N/confirm-dialog-n/confirm-dialog-n.component';
+import { ConfirmDialogNEComponent } from './components/shared/confirm-dialog-NE/confirm-dialog-ne/confirm-dialog-ne.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +29,9 @@ import { LoginComponent } from './components/login/login.component';
     ConfirmDialogComponent,
     ConfirmDialogEComponent,
     LoginComponent,
+    NotesComponent,
+    ConfirmDialogNComponent,
+    ConfirmDialogNEComponent,
     
   ],
   imports: [

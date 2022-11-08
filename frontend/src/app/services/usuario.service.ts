@@ -16,7 +16,8 @@ export class UsuarioService {
   private headers = new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem("auth_token")}`);
 
   constructor(private http: HttpClient) {
-    this.usersUrl = '/api/users';
+    this.usersUrl = 'http://localhost:8080/api/users'; //Ejecucion en local
+    //this.usersUrl = '/api/users'; //ejecucion en docker
   }
 
   getUsuarios(): Observable<Usuario[]> {
