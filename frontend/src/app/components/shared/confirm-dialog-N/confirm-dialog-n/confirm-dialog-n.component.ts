@@ -41,14 +41,16 @@ export class ConfirmDialogNComponent implements OnInit {
   }
 
   onClickCancelar(){
+    console.log("Se ha cerrado")
     this.dialogRef.close();
   }
 
   agregarNota(){
-    console.log(this.form.value);
+    console.log("eSTO ESTA ENTRANDO");
+
     
     const nota: Notes = {
-      id: Math.floor(Math.random() * 1000),
+      id: -1,
       title: this.form.value.title,
       body: this.form.value.body,
       date: this.form.value.date
