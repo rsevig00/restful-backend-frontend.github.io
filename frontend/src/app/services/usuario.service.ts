@@ -14,11 +14,11 @@ export class UsuarioService {
 
   private usersUrl: string;
   private headers = new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem("auth_token")}`);
-  
+
 
   constructor(private http: HttpClient) {
-    //this.usersUrl = 'http://localhost:8080/api/users'; //Ejecucion en local
-    this.usersUrl = '/api/users'; //ejecucion en docker
+    //this.usersUrl = 'http://localhost:8080/users/users'; //Ejecucion en local
+    this.usersUrl = '/users/users'; //ejecucion en docker
   }
 
   getUsuarios(): Observable<Usuario[]> {
@@ -31,7 +31,7 @@ export class UsuarioService {
   agregarUsuario(user: Usuario) {
     this.headers.set('responseType', 'text');
     console.log("Usuario del serevicio", user)
-    return this.http.post(this.usersUrl ,user, { headers: this.headers }).subscribe();
+    return this.http.post(this.usersUrl, user, { headers: this.headers }).subscribe();
   }
 
   editarUsuario(usuario: Usuario) {
