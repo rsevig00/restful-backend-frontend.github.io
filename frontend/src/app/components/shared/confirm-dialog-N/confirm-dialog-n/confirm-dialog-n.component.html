@@ -3,7 +3,7 @@
       Agregar una nota
     </div>
     <div class="inputs">
-      <form [formGroup]="form" (submit) = "agregarNota()">
+      <form [formGroup]="form">
         <p>
           <mat-form-field appearance="outline" style="width: 100%;">
             <mat-label>Titulo</mat-label>
@@ -22,7 +22,7 @@
             <input matInput autocomplete="off" formControlName="date">
           </mat-form-field>
         </p>
-        <button type="submit" [disabled]="form.invalid" mat-raised-button color="primary" >Aceptar</button>
+        <button type="submit" [disabled]="form.invalid" mat-raised-button color="primary" (click)="agregarNota()" >Aceptar</button>
         <button mat-raised-button (click)="onClickCancelar()" style="margin-left: 15px;">Cancelar</button>
       </form>
     </div>

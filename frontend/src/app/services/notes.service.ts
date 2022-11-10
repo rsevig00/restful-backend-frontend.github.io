@@ -14,7 +14,7 @@ export class NotesService {
   private headers = new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem("auth_token")}`);
 
   constructor(private http: HttpClient) {
-    // this.notesUrl = 'http://localhost:8080/api/notes'; //Ejecucion en local
+    //this.notesUrl = 'http://localhost:8081/api/notes'; //Ejecucion en local
     this.notesUrl = '/api/notes'; //ejecucion en docker
   }
 
@@ -31,6 +31,7 @@ export class NotesService {
   }
 
   editarNotes(Notes: Notes) {
+    console.log(Notes.id)
     let params = new HttpParams();
     return this.http.put(this.notesUrl, Notes, { headers: this.headers }).subscribe();
   }
