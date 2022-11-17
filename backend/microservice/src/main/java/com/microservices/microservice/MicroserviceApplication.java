@@ -50,11 +50,13 @@ public class MicroserviceApplication {
     }
 
     //Disabling security
+
     /*
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring()
                 .antMatchers("/**");
     }
-    */
+     */
+
 }
