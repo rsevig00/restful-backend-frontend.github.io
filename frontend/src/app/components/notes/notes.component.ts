@@ -53,11 +53,15 @@ export class NotesComponent implements OnInit {
   cargarNotas() {
     console.log("Cargando Notes");
     this._notesService.getNotes().subscribe(async (res: any) => {
-      await new Promise(f => setTimeout(f, 100));
-      this.dataSource.data = res
+      await this.saveTableAsync(res);
     });
     console.log("data source", this.dataSource.data);
 
+  }
+
+  saveTableAsync(res: any) {
+    console.log("Guardando tabla");
+    this.dataSource.data = res;
   }
 
   eliminarNotas(index: number) {
@@ -77,8 +81,13 @@ export class NotesComponent implements OnInit {
       data: "Formulario ususario"
     });
     dialogRef.afterClosed().subscribe(async result => {
-      console.log(`Dialog result: ${result}`);
-      await this.cargarNotas();
+      if (result != undefined){
+        console.log(`Dialog result: ${result}`);
+        await this.cargarNotas();
+      } else {
+        console.log("Cancelado");
+      }
+      
     });
   }
 
@@ -89,9 +98,13 @@ export class NotesComponent implements OnInit {
 
     });
     dialogRef.afterClosed().subscribe(async result => {
-      console.log(`Dialog result: ${result}`);
-      console.log("Formulario editar", this._notesService.getNotes());
-      await this.cargarNotas();
+      if (result != undefined){
+        console.log(`Dialog result: ${result}`);
+        console.log("Formulario editar", this._notesService.getNotes());
+        await this.cargarNotas();
+      } else {
+        console.log("Cancelado");
+      }
 
     });
   }

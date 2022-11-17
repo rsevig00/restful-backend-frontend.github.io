@@ -29,7 +29,7 @@
     
         <ng-container matColumnDef="date">
           <th mat-header-cell *matHeaderCellDef> <h3 style="margin-top: 20px;">Fecha</h3> </th>
-          <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+          <td mat-cell *matCellDef="let element"> {{element.date  | date:'fullDate'}} </td>
         </ng-container>
     
         <ng-container matColumnDef="acciones">

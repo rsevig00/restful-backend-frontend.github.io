@@ -62,7 +62,7 @@ export class ConfirmDialogNEComponent implements OnInit {
       date: this.form.value.date
     }
     this._noteservice.editarNotes(nota);
-    this.dialogRef.close();
+    this.dialogRef.close(1);
 
   }
 

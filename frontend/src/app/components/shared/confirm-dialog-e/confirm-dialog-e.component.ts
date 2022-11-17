@@ -62,7 +62,7 @@ export class ConfirmDialogEComponent implements OnInit {
       password: this.form.value.password
     }
     this._usuarioService.editarUsuario(usuario);
-    this.dialogRef.close();
+    this.dialogRef.close(1);
 
   }
 

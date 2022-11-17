@@ -8,8 +8,8 @@ import { UsuarioService } from './usuario.service';
 })
 export class AuthService {
 
-  //url = 'http://localhost:8080/users/auth'; // Ejecucion en local
-  url = '/users/auth'; // Ejecucion en docker
+  url = 'http://localhost:8080/users/auth'; // Ejecucion en local
+  //url = '/users/auth'; // Ejecucion en docker
   token: any;
 
   constructor(private http: HttpClient, private router: Router, private _userService: UsuarioService) { }
@@ -17,13 +17,9 @@ export class AuthService {
 
   login(username: string, password: string) {
     this.http.post(this.url + '/signin', { username: username, password: password })
-      .subscribe((resp: any) => {
+      .subscribe(async resp => {
 
-        this.router.navigate(['/home']);
-        localStorage.setItem('activeID', resp.id);
-        localStorage.setItem('auth_token', resp.accessToken);
-        console.log(localStorage.getItem('auth_token'));
-
+        await this.navigateAndTokenAsync(resp);
       },
         (err: any) => {
           alert("No existe ningún usuario con estos datos");
@@ -31,5 +27,12 @@ export class AuthService {
 
     // this.http.post(this.url + '/signin', {username: username, password: password})
 
+  }
+
+  navigateAndTokenAsync(resp: any) {
+    this.router.navigate(['/home']);
+    localStorage.setItem('activeID', resp.id);
+    localStorage.setItem('auth_token', resp.accessToken);
+    console.log(localStorage.getItem('auth_token'));
   }
 }

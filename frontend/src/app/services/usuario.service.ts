@@ -17,8 +17,8 @@ export class UsuarioService {
 
 
   constructor(private http: HttpClient) {
-    //this.usersUrl = 'http://localhost:8080/users/users'; //Ejecucion en local
-    this.usersUrl = '/users/users'; //ejecucion en docker
+    this.usersUrl = 'http://localhost:8080/users/users'; //Ejecucion en local
+    //this.usersUrl = '/users/users'; //ejecucion en docker
   }
 
   getUsuarios(): Observable<Usuario[]> {

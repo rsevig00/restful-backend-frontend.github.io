@@ -47,11 +47,17 @@ export class UsersComponent implements OnInit {
 
   cargarUsuarios(){
     console.log("Cargando usuarios");
-    this._usuarioService.getUsuarios().subscribe(async (res: any) => {
-      await new Promise(f => setTimeout(f, 100));
-      this.dataSource.data = res});
+    this._usuarioService.getUsuarios().subscribe(async res => {
+      await this.saveTableAsync(res);
+    });
     console.log("data source", this.dataSource.data);
   }
+
+  saveTableAsync(res: any) {
+    console.log("Guardando tabla");
+    this.dataSource.data = res;
+  }
+
 
   eliminarUsuario(index: number){
     console.log(index);
@@ -76,8 +82,12 @@ export class UsersComponent implements OnInit {
       data: "Formulario ususario"
     });
     dialogRef.afterClosed().subscribe(async result => {
-      console.log(`Dialog result: ${result}`);
-      await this.cargarUsuarios();
+      if(result != undefined){
+        console.log(`Dialog result: ${result}`);
+        await this.cargarUsuarios();
+      } else {
+        console.log("No se ha aniadido nada");
+      }
     });
   }
 
@@ -88,10 +98,12 @@ export class UsersComponent implements OnInit {
 
     });
     dialogRef.afterClosed().subscribe(async result => {
-      console.log(`Dialog result: ${result}`);
-      console.log("Formulario editar", this._usuarioService.getUsuarios());
-      await this.cargarUsuarios();
-
+      if(result != undefined){
+        console.log(`Dialog result: ${result}`);
+        await this.cargarUsuarios();
+      } else {
+        console.log("No se ha modificado nada");
+      }
     });
   }
 

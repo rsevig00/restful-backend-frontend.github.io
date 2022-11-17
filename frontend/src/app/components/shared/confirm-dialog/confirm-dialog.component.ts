@@ -67,7 +67,7 @@ export class ConfirmDialogComponent implements OnInit {
 
     this.sendMessage();
 
-    this.dialogRef.close();
+    this.dialogRef.close(1);
   }
 
   validarPassword() {

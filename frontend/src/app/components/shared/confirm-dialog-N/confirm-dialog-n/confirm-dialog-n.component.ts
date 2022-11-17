@@ -61,7 +61,7 @@ export class ConfirmDialogNComponent implements OnInit {
 
     this.sendMessage();
 
-    this.dialogRef.close();
+    this.dialogRef.close(1);
   }
 
 }
