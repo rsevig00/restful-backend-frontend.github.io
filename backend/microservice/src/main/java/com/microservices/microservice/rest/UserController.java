@@ -1,10 +1,12 @@
 package com.microservices.microservice.rest;
 
+import com.google.gson.Gson;
 import com.microservices.microservice.model.entitys.User;
 import com.microservices.microservice.model.entitys.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 @RestController
@@ -18,24 +20,26 @@ public class UserController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    private static final Gson gson = new Gson();
+
     @GetMapping("/users")
     public List<User> getUsers() {
         return (List<User>) userRepository.findAll();
     }
 
     @PostMapping("/users")
-    public String addUser(@RequestBody User user) {
+    public ResponseEntity<String> addUser(@RequestBody User user) {
         //check if username exists
         System.out.println(user.getName());
         if (!userRepository.findByUsername(user.getName()).isEmpty()) {
-            return "Username already exists";
+            return ResponseEntity.ok(gson.toJson("Username already exists"));
         } else if(!userRepository.findByEmail(user.getEmail()).isEmpty()){
-            return "Email already exists";
+            return ResponseEntity.ok(gson.toJson("Email already exists"));
         } else {
             User userFinal = new User(user.getName(),user.getEmail(),user.getPassword());
             userFinal.setPassword(passwordEncoder.encode(userFinal.getPassword()));
             userRepository.save(userFinal);
-            return "User added";
+            return ResponseEntity.ok(gson.toJson("User added"));
         }
     }
     
