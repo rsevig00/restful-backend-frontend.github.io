@@ -56,7 +56,7 @@ export class ConfirmDialogNEComponent implements OnInit {
     console.log(this.form.value);
 
     const nota: Notes = {
-      id: Math.floor(Math.random() * 1000),
+      id: this.form.value.id,
       title: this.form.value.title,
       body: this.form.value.body,
       date: this.form.value.date
