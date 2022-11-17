@@ -8,11 +8,13 @@ import { AuthService } from './services/auth.service';
 import { NotesComponent } from './components/notes/notes.component';
 
 const routes: Routes = [
-  {path: 'home', canActivate:[AuthGuard], component: HomeComponent},
-  {path: 'notes', canActivate:[AuthGuard], component: NotesComponent},
-  {path: '', component: LoginComponent},
-  { path: '**', pathMatch: 'full', 
-        component: PageNotFoundComponent },
+  { path: 'home', canActivate: [AuthGuard], component: HomeComponent },
+  { path: 'note', canActivate: [AuthGuard], component: NotesComponent },
+  { path: '', component: LoginComponent },
+  {
+    path: '**', pathMatch: 'full',
+    component: PageNotFoundComponent
+  },
 ];
 
 @NgModule({

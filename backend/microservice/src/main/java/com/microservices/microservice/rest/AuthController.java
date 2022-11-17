@@ -28,7 +28,7 @@ import com.microservices.microservice.security.jwt.JwtUtils;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/users/auth")
 public class AuthController {
 	@Autowired
 	private AuthenticationManager authenticationManager;

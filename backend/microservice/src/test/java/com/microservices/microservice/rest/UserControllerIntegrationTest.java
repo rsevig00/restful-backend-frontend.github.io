@@ -26,7 +26,7 @@ public class UserControllerIntegrationTest {
 
     @Test
     public void testGetUser() throws Exception {
-        this.mockMvc.perform(get("http://localhost/api/users")).andDo(print()).andExpect(status().isOk());
+        this.mockMvc.perform(get("http://localhost/users/users")).andDo(print()).andExpect(status().isOk());
     }
 
     @Test
@@ -36,12 +36,12 @@ public class UserControllerIntegrationTest {
                 .put("email", "diego@domain.es")
                 .put("password", "diego")
                 .toString();
-        this.mockMvc.perform(post("http://localhost/api/users")
+        this.mockMvc.perform(post("http://localhost/users/users")
                         .content(jsonString)
                         .contentType(MediaType.APPLICATION_JSON)).andDo(print())
                 .andExpect(status().is2xxSuccessful())
                 .andReturn();
-        this.mockMvc.perform(delete("http://localhost/api/users/2")).andDo(print()).andExpect(status().isOk());
+        this.mockMvc.perform(delete("http://localhost/users/users/2")).andDo(print()).andExpect(status().isOk());
     }
 
     @Test
@@ -52,11 +52,11 @@ public class UserControllerIntegrationTest {
                 .put("email", "diego@domain.es")
                 .put("password", "diego")
                 .toString();
-        this.mockMvc.perform(post("http://localhost/api/users")
+        this.mockMvc.perform(post("http://localhost/users/users")
                         .content(jsonString)
                         .contentType(MediaType.APPLICATION_JSON)).andDo(print())
                 .andExpect(status().is2xxSuccessful())
                 .andReturn();
-        this.mockMvc.perform(delete("http://localhost/api/users/1")).andDo(print()).andExpect(status().isOk());
+        this.mockMvc.perform(delete("http://localhost/users/users/1")).andDo(print()).andExpect(status().isOk());
     }
 }

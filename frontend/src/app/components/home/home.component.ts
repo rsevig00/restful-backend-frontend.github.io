@@ -15,7 +15,7 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  openDialog(){
+  openDialog() {
 
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: "Formulario ususario"
@@ -25,13 +25,13 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  logOut(){
+  logOut() {
     localStorage.removeItem('auth_token');
     this.router.navigate(['']);
   }
 
-  navigateToNotes(){
-    this.router.navigate(['notes']);
+  navigateToNotes() {
+    this.router.navigate(['note']);
   }
 
 

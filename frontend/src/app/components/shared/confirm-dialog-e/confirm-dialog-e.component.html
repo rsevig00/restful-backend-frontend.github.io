@@ -3,7 +3,7 @@
       Formulario usuario
     </div>
     <div class="inputs">
-      <form [formGroup]="form" (submit) = "editarUsuario()">
+      <form [formGroup]="form">
         <p>
           <mat-form-field appearance="outline" style="width: 100%;">
             <mat-label>Nombre</mat-label>
@@ -22,7 +22,7 @@
             <input matInput autocomplete="off" formControlName="password">
           </mat-form-field>
         </p>
-        <button type="submit" [disabled]="form.invalid" mat-raised-button color="primary" >Aceptar</button>
+        <button type="submit" [disabled]="form.invalid" mat-raised-button color="primary" (click)="editarUsuario()">Aceptar</button>
         <button mat-raised-button (click)="onClickCancelar()" style="margin-left: 15px;">Cancelar</button>
       </form>
     </div>

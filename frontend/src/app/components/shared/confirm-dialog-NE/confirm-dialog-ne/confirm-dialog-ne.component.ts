@@ -56,7 +56,7 @@ export class ConfirmDialogNEComponent implements OnInit {
     console.log(this.form.value);
 
     const nota: Notes = {
-      id: this.form.value.id,
+      id: this.editData.id,
       title: this.form.value.title,
       body: this.form.value.body,
       date: this.form.value.date

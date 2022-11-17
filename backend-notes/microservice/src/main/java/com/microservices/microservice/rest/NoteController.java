@@ -18,7 +18,7 @@ import com.microservices.microservice.model.entitys.Note;
 import com.microservices.microservice.model.entitys.NoteRepository;
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("/api")
+@RequestMapping("/notes")
 public class NoteController {
 
     // standard constructors
