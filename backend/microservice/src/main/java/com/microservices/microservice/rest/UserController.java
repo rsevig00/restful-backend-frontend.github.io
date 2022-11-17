@@ -51,13 +51,19 @@ public class UserController {
     }
      
     @PutMapping("/users")
-    public void modifyUser(@RequestBody User updatedUser) {
+    public ResponseEntity<String> modifyUser(@RequestBody User updatedUser) {
         User user = userRepository.findById(updatedUser.getId()).orElse(null);
-        // This should throw NullPointerException if no user is found with the ID
-        user.setName(updatedUser.getName());
-        user.setEmail(updatedUser.getEmail());
-        user.setPassword(updatedUser.getPassword());
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
+        if (!userRepository.findByUsername(user.getName()).isEmpty()) {
+            return ResponseEntity.ok(gson.toJson("Username already exists"));
+        } else if(!userRepository.findByEmail(user.getEmail()).isEmpty()){
+            return ResponseEntity.ok(gson.toJson("Email already exists"));
+        } else {
+        	user.setName(updatedUser.getName());
+            user.setEmail(updatedUser.getEmail());
+            user.setPassword(updatedUser.getPassword());
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            userRepository.save(user);
+            return ResponseEntity.ok(gson.toJson("User added"));
+        }
     }  
 }
