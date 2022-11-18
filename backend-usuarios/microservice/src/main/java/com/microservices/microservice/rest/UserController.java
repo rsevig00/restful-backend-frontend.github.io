@@ -5,6 +5,7 @@ import com.microservices.microservice.model.entitys.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 @RestController
@@ -26,15 +27,21 @@ public class UserController {
     @PostMapping("/users")
     public String addUser(@RequestBody User user) {
         //check if username exists
-        System.out.println(user.getName());
         if (!userRepository.findByUsername(user.getName()).isEmpty()) {
             return "Username already exists";
         } else if(!userRepository.findByEmail(user.getEmail()).isEmpty()){
             return "Email already exists";
         } else {
             User userFinal = new User(user.getName(),user.getEmail(),user.getPassword());
+            User userLogged = new User(user.getName(),user.getEmail(),user.getPassword());
             userFinal.setPassword(passwordEncoder.encode(userFinal.getPassword()));
             userRepository.save(userFinal);
+
+            //Actualizar login
+            final String uri = "http://localhost:8082/users/users";
+            RestTemplate restTemplate = new RestTemplate();
+            System.out.println("User logged: " + userLogged.getName() + " " + userLogged.getEmail() + " " + userLogged.getPassword());
+            User result = restTemplate.postForObject(uri, userLogged, User.class);
             return "User added";
         }
     }
@@ -44,6 +51,10 @@ public class UserController {
     //Solo funciona si el parametro tiene el mismo nombre que la variable
     public void removeUser(@PathVariable Long id) {
         userRepository.deleteById(id);
+        final String uri = "http://localhost:8082/users/users";
+        RestTemplate restTemplate = new RestTemplate();
+        //delete user from login
+        restTemplate.delete(uri + "/" + id);
     }
      
     @PutMapping("/users")
@@ -55,5 +66,9 @@ public class UserController {
         user.setPassword(updatedUser.getPassword());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
+        //Save in login
+        final String uri = "http://localhost:8082/users/users";
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.put(uri, updatedUser, User.class);
     }  
 }

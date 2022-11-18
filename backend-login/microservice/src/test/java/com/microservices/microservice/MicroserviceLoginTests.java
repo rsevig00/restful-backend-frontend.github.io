@@ -9,7 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.microservices.microservice.rest.UserController;
 
 @SpringBootTest
-class MicroserviceApplicationTests {
+class MicroserviceLoginTests {
 
     @Autowired
     private UserController controller;
