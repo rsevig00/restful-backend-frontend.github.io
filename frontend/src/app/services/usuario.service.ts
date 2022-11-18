@@ -29,11 +29,19 @@ export class UsuarioService {
   }
   agregarUsuario(user: Usuario) {
     console.log("Usuario del serevicio", user)
-    return this.http.post(this.usersUrl, user, { headers: this.headers, observe: 'response' }).pipe(map(res => console.log(res.body))).subscribe();
+    return this.http.post(this.usersUrl, user, { headers: this.headers, observe: 'response' }).pipe(map(res => { 
+      if(res.body != 0) {
+        alert(res.body)
+      }
+    })).subscribe(); 
   }
 
   editarUsuario(usuario: Usuario) {
-    return this.http.put(this.usersUrl, usuario, { headers: this.headers, observe: 'response' }).pipe(map(res => console.log(res.body))).subscribe();
+    return this.http.put(this.usersUrl, usuario, { headers: this.headers, observe: 'response' }).pipe(map(res => { 
+      if(res.body != 0) {
+        alert(res.body)
+      }
+    })).subscribe(); 
   }
 
   actualizarUsuarioActivo(usuarioName: String) {

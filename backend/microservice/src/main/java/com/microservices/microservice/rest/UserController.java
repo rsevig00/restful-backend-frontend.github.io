@@ -39,7 +39,7 @@ public class UserController {
             User userFinal = new User(user.getName(),user.getEmail(),user.getPassword());
             userFinal.setPassword(passwordEncoder.encode(userFinal.getPassword()));
             userRepository.save(userFinal);
-            return ResponseEntity.ok(gson.toJson("User added"));
+            return ResponseEntity.ok(gson.toJson(0));
         }
     }
     
@@ -53,9 +53,9 @@ public class UserController {
     @PutMapping("/users")
     public ResponseEntity<String> modifyUser(@RequestBody User updatedUser) {
         User user = userRepository.findById(updatedUser.getId()).orElse(null);
-        if (!userRepository.findByUsername(user.getName()).isEmpty()) {
+        if (!userRepository.findByUsername(updatedUser.getName()).isEmpty() && !user.getName().equals(updatedUser.getName())) {
             return ResponseEntity.ok(gson.toJson("Username already exists"));
-        } else if(!userRepository.findByEmail(user.getEmail()).isEmpty()){
+        } else if(!userRepository.findByEmail(updatedUser.getEmail()).isEmpty() && !user.getEmail().equals(updatedUser.getEmail())){
             return ResponseEntity.ok(gson.toJson("Email already exists"));
         } else {
         	user.setName(updatedUser.getName());
@@ -63,7 +63,7 @@ public class UserController {
             user.setPassword(updatedUser.getPassword());
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             userRepository.save(user);
-            return ResponseEntity.ok(gson.toJson("User added"));
+            return ResponseEntity.ok(gson.toJson(0));
         }
     }  
 }
