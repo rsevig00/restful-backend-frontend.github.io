@@ -21,7 +21,7 @@ import io.jsonwebtoken.UnsupportedJwtException;
 public class JwtUtils {
 	private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 
-	@Value("${microservices.app.jwtSecret}")
+	@Value("microservices")
 	private String jwtSecret;
 
 	@Value("${microservices.app.jwtExpirationMs}")

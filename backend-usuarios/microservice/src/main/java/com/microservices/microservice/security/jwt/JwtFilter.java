@@ -3,6 +3,7 @@ package com.microservices.microservice.security.jwt;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.springframework.web.filter.GenericFilterBean;
+
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
@@ -10,6 +11,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+
 public class JwtFilter extends GenericFilterBean {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
@@ -28,7 +30,7 @@ public class JwtFilter extends GenericFilterBean {
             final String token = authHeader.substring(7);
             Claims claims = Jwts.parser().setSigningKey("microservices").parseClaimsJws(token).getBody();
             request.setAttribute("claims", claims);
-            request.setAttribute("blog", servletRequest.getParameter("id"));
+            request.setAttribute("users", servletRequest.getParameter("id"));
             filterChain.doFilter(request, response);
 
         }

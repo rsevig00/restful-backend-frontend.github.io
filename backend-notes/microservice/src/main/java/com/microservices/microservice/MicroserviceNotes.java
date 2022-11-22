@@ -18,7 +18,7 @@ import java.util.stream.Stream;
 public class MicroserviceNotes {
 
     public static void main(String[] args) {
-        SpringApplication.run(MicroserviceUsers.class, args);
+        SpringApplication.run(MicroserviceNotes.class, args);
     }
 
     @Bean
