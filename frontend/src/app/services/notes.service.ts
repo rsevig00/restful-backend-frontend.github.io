@@ -1,6 +1,6 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 import { Notes } from '../interfaces/notes';
 
 @Injectable({
@@ -19,21 +19,34 @@ export class NotesService {
   }
 
   getNotes(): Observable<Notes[]> {
-    return this.http.get<Notes[]>(this.notesUrl, { headers: this.headers });
+    return this.http.get<Notes[]>(this.notesUrl, { headers: this.headers }).pipe(
+      catchError(this.handleError));
   }
   eliminarNotes(id: number) {
-    return this.http.delete<number>(this.notesUrl + "/" + id, { headers: this.headers });
+    return this.http.delete<number>(this.notesUrl + "/" + id, { headers: this.headers }).pipe(
+      catchError(this.handleError));
   }
   agregarNotes(note: Notes) {
 
     console.log("Notes del serevicio", note)
-    return this.http.post(this.notesUrl, note, { headers: this.headers }).subscribe();
+    return this.http.post(this.notesUrl, note, { headers: this.headers }).pipe(
+      catchError(this.handleError)).subscribe();
   }
 
   editarNotes(Notes: Notes) {
     console.log(Notes.id)
     let params = new HttpParams();
-    return this.http.put(this.notesUrl, Notes, { headers: this.headers }).subscribe();
+    return this.http.put(this.notesUrl, Notes, { headers: this.headers }).pipe(
+      catchError(this.handleError)).subscribe();
+  }
+
+  handleError(error: HttpErrorResponse) {
+    if(error.status == 0) {
+      alert("El servicio de notas no esta disponible");
+    } else {
+      alert(error.error.message);
+    }
+    return throwError(error.message);
   }
 
 }

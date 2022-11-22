@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Usuario } from '../interfaces/usuario';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http'
+import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse } from '@angular/common/http'
 import { Observable, Subject } from 'rxjs';
 import { catchError, retry, map } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -22,14 +23,19 @@ export class UsuarioService {
   }
 
   getUsuarios(): Observable<Usuario[]> {
-    return this.http.get<Usuario[]>(this.usersUrl, { headers: this.headers });
+    return this.http.get<Usuario[]>(this.usersUrl, { headers: this.headers }).pipe(
+      catchError(this.handleError)
+    );
   }
   eliminarUsuario(id: number) {
-    return this.http.delete<number>(this.usersUrl + "/" + id, { headers: this.headers });
+    return this.http.delete<number>(this.usersUrl + "/" + id, { headers: this.headers }).pipe(
+      catchError(this.handleError));
   }
   agregarUsuario(user: Usuario) {
     console.log("Usuario del serevicio", user)
-    return this.http.post(this.usersUrl, user, { headers: this.headers, observe: 'response' }).pipe(map(res => { 
+    return this.http.post(this.usersUrl, user, { headers: this.headers, observe: 'response' }).pipe(
+      catchError(this.handleError),
+      map(res => { 
       if(res.body != 0) {
         alert(res.body)
       }
@@ -37,15 +43,26 @@ export class UsuarioService {
   }
 
   editarUsuario(usuario: Usuario) {
-    return this.http.put(this.usersUrl, usuario, { headers: this.headers, observe: 'response' }).pipe(map(res => { 
-      if(res.body != 0) {
-        alert(res.body)
-      }
+    return this.http.put(this.usersUrl, usuario, { headers: this.headers, observe: 'response' }).pipe(
+      catchError(this.handleError),
+      map(res => {
+        if(res.body != 0) {
+          alert(res.body)
+        }
     })).subscribe(); 
   }
 
   actualizarUsuarioActivo(usuarioName: String) {
     this.usuarioActivo = usuarioName;
+  }
+
+  handleError(error: HttpErrorResponse) {
+    if(error.status == 0) {
+      alert("El servicio de usuarios no esta disponible");
+    } else {
+      alert(error.error.message);
+    }
+    return throwError(error.message);
   }
 
 }
