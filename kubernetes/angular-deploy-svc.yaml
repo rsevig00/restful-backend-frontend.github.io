@@ -6,7 +6,7 @@ spec:
   selector:
     matchLabels:
       app: angular
-  replicas: 2 # Number of replicas that will be created for this deployment
+  #replicas: 2 # Number of replicas that will be created for this deployment
   template:
     metadata:
       labels:
@@ -18,6 +18,11 @@ spec:
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080 # The port that the container is running on in the cluster
+      - name: backend-notes
+        image: docker.io/javirmm/backend-notes:latest # Image that will be used to containers in the cluster
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8081 # The port that the container is running on in the cluster
       - name: frontend
         image:   docker.io/javirmm/frontend:latest
         imagePullPolicy: IfNotPresent
@@ -41,9 +46,24 @@ spec:
 kind: Service  # Kubernetes API version
 apiVersion: v1 # Kubernetes resource kind we are creating
 metadata:
+  name: backend-notes
+spec:
+  selector:
+    app: angular
+  ports:
+  - protocol: TCP
+    port: 8081   # The port that the service is running on in the cluster
+    targetPort: 8081   # The port exposed by the service
+---
+
+kind: Service  # Kubernetes API version
+apiVersion: v1 # Kubernetes resource kind we are creating
+metadata:
   name: frontend
 spec:
   type: LoadBalancer
+  externalIPs:
+  - 192.168.0.10
   selector:
     app: angular
   ports:
