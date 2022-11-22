@@ -32,31 +32,31 @@ public class UserController {
         } else if(!userRepository.findByEmail(user.getEmail()).isEmpty()){
             return "Email already exists";
         } else {
-            User userFinal = new User(user.getName()backend,user.getEmail(),user.getPassword());
+            User userFinal = new User(user.getName(),user.getEmail(),user.getPassword());
             User userLogged = new User(user.getName(),user.getEmail(),user.getPassword());
             userFinal.setPassword(passwordEncoder.encode(userFinal.getPassword()));
             userRepository.save(userFinal);
 
             //Actualizar login
-            final String uri = "http://backend-login:8082/auth/users";
+            final String uri = "http://localhost:8082/users/users";
             RestTemplate restTemplate = new RestTemplate();
             System.out.println("User logged: " + userLogged.getName() + " " + userLogged.getEmail() + " " + userLogged.getPassword());
             User result = restTemplate.postForObject(uri, userLogged, User.class);
             return "User added";
         }
     }
-    
+
     @DeleteMapping("/users/{id}")
     @ResponseBody
     //Solo funciona si el parametro tiene el mismo nombre que la variable
     public void removeUser(@PathVariable Long id) {
         userRepository.deleteById(id);
-        final String uri = "http://backend-login:8082/users/users";
+        final String uri = "http://localhost:8082/users/users";
         RestTemplate restTemplate = new RestTemplate();
         //delete user from login
         restTemplate.delete(uri + "/" + id);
     }
-     
+
     @PutMapping("/users")
     public void modifyUser(@RequestBody User updatedUser) {
         User user = userRepository.findById(updatedUser.getId()).orElse(null);
@@ -67,8 +67,8 @@ public class UserController {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
         //Save in login
-        final String uri = "http://backend-login:8082/users/users";
+        final String uri = "http://localhost:8082/users/users";
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.put(uri, updatedUser, User.class);
-    }  
+    }
 }
