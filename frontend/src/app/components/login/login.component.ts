@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
     private _authService: AuthService,
 
   ) {
-    this.usersUrl = 'http://localhost:8080/users/users';
+    this.usersUrl = 'http://localhost:8082/auth/users';
     this.form = this.fb.group({
       username: ['', Validators.required],
       password: ['', Validators.required]
