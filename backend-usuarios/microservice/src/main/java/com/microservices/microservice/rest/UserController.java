@@ -9,7 +9,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 @RequestMapping("/users")
 public class UserController {
 
@@ -38,7 +38,7 @@ public class UserController {
             userRepository.save(userFinal);
 
             //Actualizar login
-            final String uri = "http://localhost:8082/users/users";
+            final String uri = "http://backend-login:8082/auth/users";
             RestTemplate restTemplate = new RestTemplate();
             System.out.println("User logged: " + userLogged.getName() + " " + userLogged.getEmail() + " " + userLogged.getPassword());
             User result = restTemplate.postForObject(uri, userLogged, User.class);
@@ -51,7 +51,7 @@ public class UserController {
     //Solo funciona si el parametro tiene el mismo nombre que la variable
     public void removeUser(@PathVariable Long id) {
         userRepository.deleteById(id);
-        final String uri = "http://localhost:8082/users/users";
+        final String uri = "http://backend-login:8082/auth/users";
         RestTemplate restTemplate = new RestTemplate();
         //delete user from login
         restTemplate.delete(uri + "/" + id);
@@ -67,7 +67,7 @@ public class UserController {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
         //Save in login
-        final String uri = "http://localhost:8082/users/users";
+        final String uri = "http://backend-login:8082/auth/users";
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.put(uri, updatedUser, User.class);
     }
