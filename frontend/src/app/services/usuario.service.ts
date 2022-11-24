@@ -18,8 +18,8 @@ export class UsuarioService {
 
 
   constructor(private http: HttpClient) {
-    this.usersUrl = 'http://localhost:8080/users/users'; //Ejecucion en local
-    //this.usersUrl = '/users/users'; //ejecucion en docker
+    //this.usersUrl = 'http://localhost:8080/users/users'; //Ejecucion en local
+    this.usersUrl = '/users/users'; //ejecucion en docker
   }
 
   getUsuarios(): Observable<Usuario[]> {
@@ -35,21 +35,21 @@ export class UsuarioService {
     console.log("Usuario del serevicio", user)
     return this.http.post(this.usersUrl, user, { headers: this.headers, observe: 'response' }).pipe(
       catchError(this.handleError),
-      map(res => { 
-      if(res.body != 0) {
-        alert(res.body)
-      }
-    })).subscribe(); 
+      map(res => {
+        if (res.body != 0) {
+          alert(res.body)
+        }
+      })).subscribe();
   }
 
   editarUsuario(usuario: Usuario) {
     return this.http.put(this.usersUrl, usuario, { headers: this.headers, observe: 'response' }).pipe(
       catchError(this.handleError),
       map(res => {
-        if(res.body != 0) {
+        if (res.body != 0) {
           alert(res.body)
         }
-    })).subscribe(); 
+      })).subscribe();
   }
 
   actualizarUsuarioActivo(usuarioName: String) {
@@ -57,7 +57,7 @@ export class UsuarioService {
   }
 
   handleError(error: HttpErrorResponse) {
-    if(error.status == 0) {
+    if (error.status == 0) {
       alert("El servicio de usuarios no esta disponible");
     } else {
       alert(error.error.message);

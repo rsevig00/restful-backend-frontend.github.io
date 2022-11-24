@@ -46,7 +46,7 @@ public class UserController {
             RestTemplate restTemplate = new RestTemplate();
             System.out.println("User logged: " + userLogged.getName() + " " + userLogged.getEmail() + " " + userLogged.getPassword());
             User result = restTemplate.postForObject(uri, userLogged, User.class);
-            return "User added";
+            return ResponseEntity.ok(gson.toJson(0));
         }
     }
 
@@ -74,5 +74,6 @@ public class UserController {
         final String uri = "http://backend-login:8082/auth/users";
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.put(uri, updatedUser, User.class);
+        return ResponseEntity.ok(gson.toJson(0));
     }
 }

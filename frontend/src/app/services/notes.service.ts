@@ -14,8 +14,8 @@ export class NotesService {
   private headers = new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem("auth_token")}`);
 
   constructor(private http: HttpClient) {
-    this.notesUrl = 'http://localhost:8081/notes/notes'; //Ejecucion en local
-    //this.notesUrl = '/notes/notes'; //ejecucion en docker
+    // this.notesUrl = 'http://localhost:8081/notes/notes'; //Ejecucion en local
+    this.notesUrl = '/notes/notes'; //ejecucion en docker
   }
 
   getNotes(): Observable<Notes[]> {
@@ -41,7 +41,7 @@ export class NotesService {
   }
 
   handleError(error: HttpErrorResponse) {
-    if(error.status == 0) {
+    if (error.status == 0) {
       alert("El servicio de notas no esta disponible");
     } else {
       alert(error.error.message);
