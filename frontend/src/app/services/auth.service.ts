@@ -8,8 +8,8 @@ import { UsuarioService } from './usuario.service';
 })
 export class AuthService {
 
-  url = 'http://localhost:8082/auth'; // Ejecucion en local
-  //url = '/users/auth'; // Ejecucion en docker
+  //url = 'http://localhost:8082/auth'; // Ejecucion en local
+  url = '/auth'; // Ejecucion en docker
   token: any;
 
   constructor(private http: HttpClient, private router: Router, private _userService: UsuarioService) { }
