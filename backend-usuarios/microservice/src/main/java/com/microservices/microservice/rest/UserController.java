@@ -63,17 +63,23 @@ public class UserController {
 
     @PutMapping("/users")
     public ResponseEntity<String> modifyUser(@RequestBody User updatedUser) {
-        User user = userRepository.findById(updatedUser.getId()).orElse(null);
-        // This should throw NullPointerException if no user is found with the ID
-        user.setName(updatedUser.getName());
-        user.setEmail(updatedUser.getEmail());
-        user.setPassword(updatedUser.getPassword());
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
-        //Save in login
-        final String uri = "http://backend-login:8082/auth/users";
-        RestTemplate restTemplate = new RestTemplate();
-        restTemplate.put(uri, updatedUser, User.class);
-        return ResponseEntity.ok(gson.toJson(0));
+        if (!userRepository.findByUsername(updatedUser.getName()).isEmpty() && !user.getName().equals(updatedUser.getName())) {
+            return ResponseEntity.ok(gson.toJson("Username already exists"));
+        } else if(!userRepository.findByEmail(updatedUser.getEmail()).isEmpty() && !user.getEmail().equals(updatedUser.getEmail())){
+            return ResponseEntity.ok(gson.toJson("Email already exists"));
+        } else {
+            User user = userRepository.findById(updatedUser.getId()).orElse(null);
+            // This should throw NullPointerException if no user is found with the ID
+            user.setName(updatedUser.getName());
+            user.setEmail(updatedUser.getEmail());
+            user.setPassword(updatedUser.getPassword());
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            userRepository.save(user);
+            //Save in login
+            final String uri = "http://backend-login:8082/auth/users";
+            RestTemplate restTemplate = new RestTemplate();
+            restTemplate.put(uri, updatedUser, User.class);
+            return ResponseEntity.ok(gson.toJson(0));
+        }
     }
 }
