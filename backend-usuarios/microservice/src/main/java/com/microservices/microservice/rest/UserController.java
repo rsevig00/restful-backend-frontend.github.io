@@ -73,12 +73,14 @@ public class UserController {
             user.setName(updatedUser.getName());
             user.setEmail(updatedUser.getEmail());
             user.setPassword(updatedUser.getPassword());
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            if (updatedUser.getPassword().length() <= 32){
+                user.setPassword(passwordEncoder.encode(user.getPassword()));
+            }
             userRepository.save(user);
             //Save in login
             final String uri = "http://backend-login:8082/auth/users";
             RestTemplate restTemplate = new RestTemplate();
-            restTemplate.put(uri, updatedUser, User.class);
+            restTemplate.put(uri, user, User.class);
             return ResponseEntity.ok(gson.toJson(0));
         }
     }
