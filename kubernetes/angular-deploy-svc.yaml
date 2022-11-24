@@ -13,8 +13,8 @@ spec:
         app: angular
     spec:
       containers:
-      - name: backend
-        image: docker.io/javirmm/backend:latest # Image that will be used to containers in the cluster
+      - name: backend-users
+        image: docker.io/javirmm/backend-users:latest # Image that will be used to containers in the cluster
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080 # The port that the container is running on in the cluster
@@ -23,6 +23,11 @@ spec:
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8081 # The port that the container is running on in the cluster
+      - name: backend-login
+        image: docker.io/javirmm/backend-login:latest # Image that will be used to containers in the cluster
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8082 # The port that the container is running on in the cluster
       - name: frontend
         image:   docker.io/javirmm/frontend:latest
         imagePullPolicy: IfNotPresent
@@ -33,7 +38,7 @@ spec:
 kind: Service  # Kubernetes API version
 apiVersion: v1 # Kubernetes resource kind we are creating
 metadata:
-  name: backend
+  name: backend-users
 spec:
   selector:
     app: angular
@@ -54,6 +59,19 @@ spec:
   - protocol: TCP
     port: 8081   # The port that the service is running on in the cluster
     targetPort: 8081   # The port exposed by the service
+---
+
+kind: Service  # Kubernetes API version
+apiVersion: v1 # Kubernetes resource kind we are creating
+metadata:
+  name: backend-login
+spec:
+  selector:
+    app: angular
+  ports:
+  - protocol: TCP
+    port: 8082   # The port that the service is running on in the cluster
+    targetPort: 8082   # The port exposed by the service
 ---
 
 kind: Service  # Kubernetes API version
