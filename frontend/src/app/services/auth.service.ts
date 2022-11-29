@@ -29,9 +29,9 @@ export class AuthService {
   }
 
   navigateAndTokenAsync(resp: any) {
-    this.router.navigate(['/home']);
     localStorage.setItem('activeID', resp.id);
     localStorage.setItem('auth_token', resp.accessToken);
+    this.router.navigate(['/home']);
     console.log(localStorage.getItem('auth_token'));
   }
 
