@@ -45,11 +45,12 @@ public class MicroserviceNotes {
             noteRepository.findAll().forEach(System.out::println);
         };
     }
-
+    /*
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring()
                 .antMatchers("/**");
     }
+     */
 
 }

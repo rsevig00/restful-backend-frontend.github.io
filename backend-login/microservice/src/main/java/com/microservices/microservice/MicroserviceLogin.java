@@ -51,7 +51,8 @@ public class MicroserviceLogin {
     }
 
     //Disabling security for this microservice
-    /*@Bean
+    /*
+    @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring()
                 .antMatchers("/**");
