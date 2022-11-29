@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
+import java.net.UnknownHostException;
 import java.util.List;
 @RestController
 @CrossOrigin(origins = "*")
@@ -22,6 +24,7 @@ public class UserController {
     private PasswordEncoder passwordEncoder;
 
     private static final Gson gson = new Gson();
+    private static final String loginURI = "http://backend-login:8082/auth/users";
 
     @GetMapping("/users")
     public List<User> getUsers() {
@@ -42,11 +45,14 @@ public class UserController {
             userRepository.save(userFinal);
 
             //Actualizar login
-            final String uri = "http://backend-login:8082/auth/users";
-            RestTemplate restTemplate = new RestTemplate();
-            System.out.println("User logged: " + userLogged.getName() + " " + userLogged.getEmail() + " " + userLogged.getPassword());
-            User result = restTemplate.postForObject(uri, userLogged, User.class);
-            return ResponseEntity.ok(gson.toJson(0));
+            try {
+                RestTemplate restTemplate = new RestTemplate();
+                restTemplate.postForObject(loginURI, userLogged, User.class);
+                return ResponseEntity.ok(gson.toJson(0));   
+            } catch(ResourceAccessException e) {
+            	System.out.println("Server login down");
+                return ResponseEntity.ok(gson.toJson(0));
+            }
         }
     }
 
@@ -55,10 +61,9 @@ public class UserController {
     //Solo funciona si el parametro tiene el mismo nombre que la variable
     public void removeUser(@PathVariable Long id) {
         userRepository.deleteById(id);
-        final String uri = "http://backend-login:8082/auth/users";
         RestTemplate restTemplate = new RestTemplate();
         //delete user from login
-        restTemplate.delete(uri + "/" + id);
+        restTemplate.delete(loginURI + "/" + id);
     }
 
     @PutMapping("/users")
@@ -78,10 +83,14 @@ public class UserController {
             }
             userRepository.save(user);
             //Save in login
-            final String uri = "http://backend-login:8082/auth/users";
-            RestTemplate restTemplate = new RestTemplate();
-            restTemplate.put(uri, user, User.class);
-            return ResponseEntity.ok(gson.toJson(0));
+            try {
+            	RestTemplate restTemplate = new RestTemplate();
+                restTemplate.put(loginURI, user, User.class);
+                return ResponseEntity.ok(gson.toJson(0));
+            } catch(ResourceAccessException e) {
+            	System.out.println("Server login down");
+                return ResponseEntity.ok(gson.toJson(0));
+            }
         }
     }
 }

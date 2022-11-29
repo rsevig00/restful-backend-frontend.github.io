@@ -22,11 +22,17 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
+        /*http
                 .authorizeHttpRequests((requests) -> requests
                         .antMatchers("/**").permitAll()
 
-                );
+                );*/
+        http.cors().and().csrf().disable()
+                .authorizeRequests().antMatchers("/users/**").permitAll()
+                .antMatchers("/users/test/**").permitAll()
+                .antMatchers("/users/users/**").permitAll()
+                .anyRequest().authenticated();
+
         return http.build();
     }
 }

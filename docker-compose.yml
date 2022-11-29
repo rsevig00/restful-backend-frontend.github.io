@@ -9,6 +9,8 @@ services:
             - "8080:8080"
         expose:
             - 8080
+        depends_on:
+            - backend-login
     backend-notes:
         image: backend-notes
         container_name: backend-notes
@@ -16,6 +18,8 @@ services:
             context: ./backend-notes/microservice
         ports:
             - "8081:8081"
+        depends_on:
+            - backend-users
     backend-login:
         image: backend-login
         container_name: backend-login
