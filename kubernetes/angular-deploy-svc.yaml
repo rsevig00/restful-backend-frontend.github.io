@@ -80,8 +80,6 @@ metadata:
   name: frontend
 spec:
   type: LoadBalancer
-  externalIPs:
-  - 192.168.0.10
   selector:
     app: angular
   ports:

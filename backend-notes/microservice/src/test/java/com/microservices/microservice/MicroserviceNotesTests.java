@@ -9,7 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.microservices.microservice.rest.NoteController;
 
 @SpringBootTest
-class MicroserviceUsersTests {
+class MicroserviceNotesTests {
 
     @Autowired
     private NoteController controller;
@@ -18,6 +18,7 @@ class MicroserviceUsersTests {
     public void contextLoads() {
         assertThat(controller).isNotNull();
     }
+
 }
 
 	
