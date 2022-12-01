@@ -61,8 +61,9 @@ export class UsersComponent implements OnInit {
 
 
   eliminarUsuario(user: Usuario) {
-
-    if (user.id != parseInt(localStorage.getItem("activeID")!)) {
+    console.log(user.name)
+    console.log(localStorage.getItem("activeUsername"))
+    if (user.name != localStorage.getItem("activeUsername")) {
       this._usuarioService.eliminarUsuario(user.name).subscribe(
         async data => {
           console.log(data);
