@@ -32,7 +32,6 @@ export class AuthService {
     this.router.navigate(['/home']);
     localStorage.setItem('activeUsername', resp.username);
     localStorage.setItem('auth_token', resp.accessToken);
-    console.log(localStorage.getItem('auth_token'));
   }
 
   handleError(error: HttpErrorResponse) {

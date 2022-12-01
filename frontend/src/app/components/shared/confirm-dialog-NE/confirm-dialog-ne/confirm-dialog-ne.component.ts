@@ -32,7 +32,6 @@ export class ConfirmDialogNEComponent implements OnInit {
   
 
   ngOnInit(): void {
-    console.log(this.editData);
 
     if(this.editData){
       this.form.patchValue({
@@ -53,7 +52,6 @@ export class ConfirmDialogNEComponent implements OnInit {
   }
 
   editarNota(){
-    console.log(this.form.value);
 
     const nota: Notes = {
       id: this.editData.id,

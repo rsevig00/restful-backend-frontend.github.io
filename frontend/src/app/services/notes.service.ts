@@ -28,13 +28,11 @@ export class NotesService {
   }
   agregarNotes(note: Notes) {
 
-    console.log("Notes del serevicio", note)
     return this.http.post(this.notesUrl, note, { headers: this.headers }).pipe(
       catchError(this.handleError)).subscribe();
   }
 
   editarNotes(Notes: Notes) {
-    console.log(Notes.id)
     let params = new HttpParams();
     return this.http.put(this.notesUrl, Notes, { headers: this.headers }).pipe(
       catchError(this.handleError)).subscribe();

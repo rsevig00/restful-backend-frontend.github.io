@@ -41,12 +41,10 @@ export class ConfirmDialogNComponent implements OnInit {
   }
 
   onClickCancelar(){
-    console.log("Se ha cerrado")
     this.dialogRef.close();
   }
 
   agregarNota(){
-    console.log("eSTO ESTA ENTRANDO");
 
     
     const nota: Notes = {

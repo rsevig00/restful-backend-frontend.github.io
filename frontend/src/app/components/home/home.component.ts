@@ -21,7 +21,6 @@ export class HomeComponent implements OnInit {
       data: "Formulario ususario"
     });
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
     });
   }
 

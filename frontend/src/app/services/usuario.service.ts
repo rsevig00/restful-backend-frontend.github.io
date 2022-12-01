@@ -32,7 +32,6 @@ export class UsuarioService {
       catchError(this.handleError));
   }
   agregarUsuario(user: Usuario) {
-    console.log("Usuario del serevicio", user)
     return this.http.post(this.usersUrl, user, { headers: this.headers, observe: 'response' }).pipe(
       catchError(this.handleError),
       map(res => {

@@ -31,7 +31,6 @@ export class UsersComponent implements OnInit {
     this.subscriptionName = this._commonService.getUpdate().subscribe
       (message => {
         this.messageReceived = message;
-        console.log("Message received: ", this.messageReceived);
         //this.cargarUsuarios();
       });
   }
