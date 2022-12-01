@@ -46,26 +46,20 @@ export class UsersComponent implements OnInit {
   }
 
   cargarUsuarios() {
-    console.log("Cargando usuarios");
     this._usuarioService.getUsuarios().subscribe(async res => {
       await this.saveTableAsync(res);
     });
-    console.log("data source", this.dataSource.data);
   }
 
   saveTableAsync(res: any) {
-    console.log("Guardando tabla");
     this.dataSource.data = res;
   }
 
 
   eliminarUsuario(user: Usuario) {
-    console.log(user.name)
-    console.log(localStorage.getItem("activeUsername"))
     if (user.name != localStorage.getItem("activeUsername")) {
       this._usuarioService.eliminarUsuario(user.name).subscribe(
         async data => {
-          console.log(data);
           await this.cargarUsuarios();
         })
     } else {
@@ -82,10 +76,8 @@ export class UsersComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(async result => {
       if (result != undefined) {
-        console.log(`Dialog result: ${result}`);
         await this.cargarUsuarios();
       } else {
-        console.log("No se ha aniadido nada");
       }
     });
   }
@@ -98,10 +90,8 @@ export class UsersComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(async result => {
       if (result != undefined) {
-        console.log(`Dialog result: ${result}`);
         await this.cargarUsuarios();
       } else {
-        console.log("No se ha modificado nada");
       }
     });
   }
