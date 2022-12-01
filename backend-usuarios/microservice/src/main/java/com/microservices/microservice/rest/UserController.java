@@ -3,13 +3,22 @@ package com.microservices.microservice.rest;
 import com.google.gson.Gson;
 import com.microservices.microservice.model.entitys.User;
 import com.microservices.microservice.model.entitys.UserRepository;
+import com.microservices.microservice.security.jwt.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Optional;
+
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/users")
@@ -50,15 +59,15 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("/users/{id}")
+    @DeleteMapping("/users/{username}")
     @ResponseBody
     //Solo funciona si el parametro tiene el mismo nombre que la variable
-    public void removeUser(@PathVariable Long id) {
-        userRepository.deleteById(id);
+    public void removeUser(@PathVariable String username) {
+        userRepository.deleteByUsername(username);
         final String uri = "http://backend-login:8082/auth/users";
         RestTemplate restTemplate = new RestTemplate();
         //delete user from login
-        restTemplate.delete(uri + "/" + id);
+        restTemplate.delete(uri + "/" + username);
     }
 
     @PutMapping("/users")
@@ -82,6 +91,20 @@ public class UserController {
             RestTemplate restTemplate = new RestTemplate();
             restTemplate.put(uri, user, User.class);
             return ResponseEntity.ok(gson.toJson(0));
+        }
+    }
+
+    @EventListener(ApplicationReadyEvent.class)
+    public void refreshDBLoginService() {
+        try {
+            //Actualizar login
+            final String uri = "http://backend-login:8082/auth/users/refresh";
+            RestTemplate restTemplate = new RestTemplate();
+            List<User> listaUsuarios = (List<User>) userRepository.findAll();
+            Object result = restTemplate.postForObject(uri, listaUsuarios, User.class);
+
+        } catch (Exception e) {
+            System.out.println("Servicio caido: " + e);
         }
     }
 }

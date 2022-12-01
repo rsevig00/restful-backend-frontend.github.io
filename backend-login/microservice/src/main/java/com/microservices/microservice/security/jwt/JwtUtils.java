@@ -39,6 +39,15 @@ public class JwtUtils {
 				.compact();
 	}
 
+	public String generateJwtTokenService() {
+
+		return Jwts.builder()
+				.setSubject("microservices")
+				.setIssuedAt(new Date())
+				.signWith(SignatureAlgorithm.HS512, "microservices")
+				.compact();
+	}
+
 	public String getUserNameFromJwtToken(String token) {
 		return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
 	}

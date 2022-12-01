@@ -14,7 +14,7 @@ export class NotesService {
   private headers = new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem("auth_token")}`);
 
   constructor(private http: HttpClient) {
-    // this.notesUrl = 'http://localhost:8081/notes/notes'; //Ejecucion en local
+    //this.notesUrl = 'http://localhost:8081/notes/notes'; //Ejecucion en local
     this.notesUrl = '/notes/notes'; //ejecucion en docker
   }
 

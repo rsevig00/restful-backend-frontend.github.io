@@ -22,7 +22,6 @@ public class JwtFilter extends GenericFilterBean {
             response.setStatus(HttpServletResponse.SC_OK);
             filterChain.doFilter(request, response);
         } else {
-
             if(authHeader == null || !authHeader.startsWith("Bearer ")){
                 throw new ServletException("An exception occurred");
             }
