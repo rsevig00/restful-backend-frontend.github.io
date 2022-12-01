@@ -1,42 +1,48 @@
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z4">
 
-    <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef> <h3 style="margin-top: 20px;">ID</h3> </th>
-      <td mat-cell *matCellDef="let element"> {{element.id}} </td>
-    </ng-container>
-  
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef> <h3 style="margin-top: 20px;">Nombre</h3> </th>
-      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-    </ng-container>
-  
-    <ng-container matColumnDef="email">
-      <th mat-header-cell *matHeaderCellDef> <h3 style="margin-top: 20px;">Correo</h3> </th>
-      <td mat-cell *matCellDef="let element"> {{element.email}} </td>
-    </ng-container>
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef>
+      <h3 style="margin-top: 20px;">ID</h3>
+    </th>
+    <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+  </ng-container>
 
-    <ng-container matColumnDef="password">
-      <th mat-header-cell *matHeaderCellDef> <h3 style="margin-top: 20px;">Contraseña</h3> </th>
-      <td mat-cell *matCellDef="let element"> {{element.password}} </td>
-    </ng-container>
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef>
+      <h3 style="margin-top: 20px;">Nombre</h3>
+    </th>
+    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+  </ng-container>
 
-    <ng-container matColumnDef="acciones">
-        <th mat-header-cell *matHeaderCellDef> </th>
-        <td mat-cell *matCellDef="let element; let i = index" style="text-align: right;"> 
-            <button mat-icon-button (click)="openDialogE(element)">
-                <mat-icon>edit</mat-icon>
-            </button>
-            <button mat-icon-button (click)="eliminarUsuario(element.id)">
-                <mat-icon>delete</mat-icon>
-            </button>
-        </td>
-      </ng-container>
-  
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
+  <ng-container matColumnDef="email">
+    <th mat-header-cell *matHeaderCellDef>
+      <h3 style="margin-top: 20px;">Correo</h3>
+    </th>
+    <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="password">
+    <th mat-header-cell *matHeaderCellDef>
+      <h3 style="margin-top: 20px;">Contraseña</h3>
+    </th>
+    <td mat-cell *matCellDef="let element"> {{element.password}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="acciones">
+    <th mat-header-cell *matHeaderCellDef> </th>
+    <td mat-cell *matCellDef="let element; let i = index" style="text-align: right;">
+      <button mat-icon-button (click)="openDialogE(element)">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button (click)="eliminarUsuario(element)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
 <div class="center">
-    <button class="boton-agregar" mat-raised-button color="primary" (click)="openDialog()">Agregar</button>
+  <button class="boton-agregar" mat-raised-button color="primary" (click)="openDialog()">Agregar</button>
 </div>
-  
-  

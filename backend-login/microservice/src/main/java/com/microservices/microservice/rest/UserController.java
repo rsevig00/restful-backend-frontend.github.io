@@ -47,7 +47,7 @@ public class UserController {
     @ResponseBody
     //Solo funciona si el parametro tiene el mismo nombre que la variable
     public void removeUser(@PathVariable String username) {
-        userRepository.deleteByUsername(username);
+        userRepository.deleteById(userRepository.findByUsername(username).get().getId());
     }
      
     @PutMapping("/users")
