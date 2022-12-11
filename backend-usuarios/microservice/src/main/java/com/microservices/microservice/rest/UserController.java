@@ -13,10 +13,12 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RestController
@@ -32,6 +34,8 @@ public class UserController {
 
 	private static final Gson gson = new Gson();
 
+	private static final String loginURI = "http://backend-login:8082/auth/users";
+
 	@GetMapping("/users")
 	public List<User> getUsers() {
 		return (List<User>) userRepository.findAll();
@@ -40,6 +44,7 @@ public class UserController {
 	@PostMapping("/users")
 	public ResponseEntity<String> addUser(@RequestBody User user) {
 		// check if username exists
+		System.out.println("User saved");
 		if (!userRepository.findByUsername(user.getName()).isEmpty()) {
 			return ResponseEntity.ok(gson.toJson("Username already exists"));
 		} else if (!userRepository.findByEmail(user.getEmail()).isEmpty()) {
@@ -49,14 +54,15 @@ public class UserController {
 			User userLogged = new User(user.getName(), user.getEmail(), user.getPassword());
 			userFinal.setPassword(passwordEncoder.encode(userFinal.getPassword()));
 			userRepository.save(userFinal);
-
 			// Actualizar login
-			final String uri = "http://backend-login:8082/auth/users";
-			RestTemplate restTemplate = new RestTemplate();
-			System.out.println("User logged: " + userLogged.getName() + " " + userLogged.getEmail() + " "
-					+ userLogged.getPassword());
-			User result = restTemplate.postForObject(uri, userLogged, User.class);
-			return ResponseEntity.ok(gson.toJson(0));
+			try {
+				RestTemplate restTemplate = new RestTemplate();
+				restTemplate.postForObject(loginURI, userLogged, User.class);
+				return ResponseEntity.ok(gson.toJson(0));
+			} catch (ResourceAccessException e) {
+				System.out.println("Server login down");
+				return ResponseEntity.ok(gson.toJson(0));
+			}
 		}
 	}
 
@@ -64,11 +70,16 @@ public class UserController {
 	@ResponseBody
 	// Solo funciona si el parametro tiene el mismo nombre que la variable
 	public void removeUser(@PathVariable String username) {
-		userRepository.deleteById(userRepository.findByUsername(username).get().getId());
-		final String uri = "http://backend-login:8082/auth/users";
-		RestTemplate restTemplate = new RestTemplate();
-		// delete user from login
-		restTemplate.delete(uri + "/" + username);
+		try {
+			userRepository.deleteById(userRepository.findByUsername(username).get().getId());
+			RestTemplate restTemplate = new RestTemplate();
+			// delete user from login
+			restTemplate.delete(loginURI + "/" + username);
+		} catch (ResourceAccessException e) {
+			System.out.println("Server login down");
+		} catch (NoSuchElementException e) {
+			System.out.println("Cannot find user " + username);
+		}
 	}
 
 	@PutMapping("/users")
@@ -90,10 +101,14 @@ public class UserController {
 			}
 			userRepository.save(user);
 			// Save in login
-			final String uri = "http://backend-login:8082/auth/users";
-			RestTemplate restTemplate = new RestTemplate();
-			restTemplate.put(uri, user, User.class);
-			return ResponseEntity.ok(gson.toJson(0));
+			try {
+				RestTemplate restTemplate = new RestTemplate();
+				restTemplate.put(loginURI, user, User.class);
+				return ResponseEntity.ok(gson.toJson(0));
+			} catch (ResourceAccessException e) {
+				System.out.println("Server login down");
+				return ResponseEntity.ok(gson.toJson(0));
+			}
 		}
 	}
 
@@ -105,7 +120,6 @@ public class UserController {
 			RestTemplate restTemplate = new RestTemplate();
 			List<User> listaUsuarios = (List<User>) userRepository.findAll();
 			Object result = restTemplate.postForObject(uri, listaUsuarios, User.class);
-
 		} catch (Exception e) {
 			System.out.println("Servicio caido: " + e);
 		}

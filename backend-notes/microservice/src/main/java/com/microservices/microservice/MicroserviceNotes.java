@@ -31,20 +31,6 @@ public class MicroserviceNotes {
         };
     }
     
-    @Bean
-    CommandLineRunner init(NoteRepository noteRepository) {
-        return args -> {
-            Stream.of("admin").forEach(name -> {
-                Note note = new Note("hello", "message", new Date(2022, 5, 22));
-                Optional<Note> var = noteRepository.findByTitle(name);
-
-                if (var.isEmpty()) {
-                    noteRepository.save(note);
-                }
-            });
-            noteRepository.findAll().forEach(System.out::println);
-        };
-    }
     /*
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {

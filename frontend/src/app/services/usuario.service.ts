@@ -28,7 +28,7 @@ export class UsuarioService {
     );
   }
   eliminarUsuario(userName: string) {
-    return this.http.delete<number>(this.usersUrl + "/" + userName, { headers: this.headers }).pipe(
+    return this.http.delete<string>(this.usersUrl + "/" + userName, { headers: this.headers }).pipe(
       catchError(this.handleError));
   }
   agregarUsuario(user: Usuario) {
