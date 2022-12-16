@@ -44,11 +44,9 @@ export class ConfirmDialogComponent implements OnInit {
   }
 
   agregarUsuario(){
-    console.log(this.form.value);
 
     let status = this.validarPassword();
 
-    console.log("Despues funcion", status);
 
     if(status.length > 0){
       alert(status);
@@ -81,29 +79,23 @@ export class ConfirmDialogComponent implements OnInit {
 
     if (8 > password.length && password.length <= 32) {
       mensaje = mensaje.concat("La contraseña debe tener entre 8 y 32 caracteres.\n");
-      console.log("La contraseña debe tener entre 8 y 32 caracteres");
     }
 
     if(!numeros.test(password)){
       mensaje = mensaje.concat("La contraseña debe tener al menos un número.\n");
-      console.log("La contraseña debe tener al menos un número");
     }
 
     if(!minusculas.test(password)){
       mensaje = mensaje.concat("La contraseña debe tener al menos una minúscula.\n");
-      console.log("La contraseña debe tener al menos una minúscula");
     }
 
     if(!mayusculas.test(password)){
       mensaje = mensaje.concat("La contraseña debe tener al menos una mayúscula.\n");
-      console.log("La contraseña debe tener al menos una mayúscula");
     }
 
     if(!caracteres.test(password)){
       mensaje = mensaje.concat("La contraseña debe tener al menos un caracter especial.\n");
-      console.log("La contraseña debe tener al menos un caracter especial");
     }
-    console.log("Antes funcion", mensaje);
     return mensaje;
 
   }

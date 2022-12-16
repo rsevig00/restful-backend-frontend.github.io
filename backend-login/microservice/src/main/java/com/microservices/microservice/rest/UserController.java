@@ -2,9 +2,19 @@ package com.microservices.microservice.rest;
 
 import com.microservices.microservice.model.entitys.User;
 import com.microservices.microservice.model.entitys.UserRepository;
+import com.microservices.microservice.security.jwt.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
+import org.springframework.http.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/auth")
@@ -30,12 +40,14 @@ public class UserController {
         userFinal.setPassword(passwordEncoder.encode(userFinal.getPassword()));
         userRepository.save(userFinal);
     }
+
+
     
-    @DeleteMapping("/users/{id}")
+    @DeleteMapping("/users/{username}")
     @ResponseBody
     //Solo funciona si el parametro tiene el mismo nombre que la variable
-    public void removeUser(@PathVariable Long id) {
-        userRepository.deleteById(id);
+    public void removeUser(@PathVariable String username) {
+        userRepository.deleteById(userRepository.findByUsername(username).get().getId());
     }
      
     @PutMapping("/users")
@@ -47,5 +59,41 @@ public class UserController {
         user.setEmail(updatedUser.getEmail());
         user.setPassword(updatedUser.getPassword());
         userRepository.save(user);
-    }  
+    }
+
+    @EventListener(ApplicationReadyEvent.class)
+    public void refreshDB() {
+        try {
+            JwtUtils jwtUtils = new JwtUtils();
+            String token = jwtUtils.generateJwtTokenService();
+
+            final String uri = "http://backend-users:8080/users/users";
+            RestTemplate restTemplate = new RestTemplate();
+            HttpHeaders headers = new HttpHeaders();
+            headers.set("Authorization", "Bearer " + token);
+            HttpEntity<String> entity = new HttpEntity<>("body", headers);
+            //make a get request with this headers using getForObject method
+            ResponseEntity<List> response = restTemplate.exchange(uri, HttpMethod.GET, entity, List.class);
+
+            userRepository.deleteAll();
+            //create a LinkedHashMap objet
+            List listUsers = response.getBody();
+
+            for (Object user : listUsers) {
+                LinkedHashMap map = (LinkedHashMap) user;
+                User userNew = new User(map.get("name").toString(), map.get("email").toString(), map.get("password").toString());
+                userRepository.save(userNew);
+            }
+        } catch (Exception e) {
+            System.out.println("Servicio caido: " + e);
+        }
+    }
+
+    @PostMapping("/users/refresh")
+    public void refreshDbFromUserService(@RequestBody List<User> users) {
+        userRepository.deleteAll();
+        for (User user : users) {
+            userRepository.save(user);
+        }
+    }
 }

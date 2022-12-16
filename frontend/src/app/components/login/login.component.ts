@@ -35,9 +35,6 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
   submit() {
-    console.log("username is " + this.form.value.username);
-    console.log("password is " + this.form.value.password);
-    console.log("form is " + this.form.value);
     this._authService.login(this.form.value.username, this.form.value.password);
   }
   clear() {

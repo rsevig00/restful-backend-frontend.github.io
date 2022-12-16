@@ -27,12 +27,11 @@ export class UsuarioService {
       catchError(this.handleError)
     );
   }
-  eliminarUsuario(id: number) {
-    return this.http.delete<number>(this.usersUrl + "/" + id, { headers: this.headers }).pipe(
+  eliminarUsuario(userName: string) {
+    return this.http.delete<string>(this.usersUrl + "/" + userName, { headers: this.headers }).pipe(
       catchError(this.handleError));
   }
   agregarUsuario(user: Usuario) {
-    console.log("Usuario del serevicio", user)
     return this.http.post(this.usersUrl, user, { headers: this.headers, observe: 'response' }).pipe(
       catchError(this.handleError),
       map(res => {

@@ -14,7 +14,7 @@ export class NotesService {
   private headers = new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem("auth_token")}`);
 
   constructor(private http: HttpClient) {
-    // this.notesUrl = 'http://localhost:8081/notes/notes'; //Ejecucion en local
+    //this.notesUrl = 'http://localhost:8081/notes/notes'; //Ejecucion en local
     this.notesUrl = '/notes/notes'; //ejecucion en docker
   }
 
@@ -28,13 +28,11 @@ export class NotesService {
   }
   agregarNotes(note: Notes) {
 
-    console.log("Notes del serevicio", note)
     return this.http.post(this.notesUrl, note, { headers: this.headers }).pipe(
       catchError(this.handleError)).subscribe();
   }
 
   editarNotes(Notes: Notes) {
-    console.log(Notes.id)
     let params = new HttpParams();
     return this.http.put(this.notesUrl, Notes, { headers: this.headers }).pipe(
       catchError(this.handleError)).subscribe();

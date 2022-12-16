@@ -35,7 +35,6 @@ export class NotesComponent implements OnInit {
     this.subscriptionName = this._commonService.getUpdate().subscribe
       (message => {
         this.messageReceived = message;
-        console.log("Message received: ", this.messageReceived);
         //this.cargarNotes();
       });
   }
@@ -51,25 +50,20 @@ export class NotesComponent implements OnInit {
   }
 
   cargarNotas() {
-    console.log("Cargando Notes");
     this._notesService.getNotes().subscribe(async (res: any) => {
       await this.saveTableAsync(res);
     });
-    console.log("data source", this.dataSource.data);
 
   }
 
   saveTableAsync(res: any) {
-    console.log("Guardando tabla");
     this.dataSource.data = res;
   }
 
   eliminarNotas(index: number) {
-    console.log(index);
 
     this._notesService.eliminarNotes(index).subscribe(
       async data => {
-        console.log(data);
         await this.cargarNotas();
       })
   }
@@ -82,10 +76,8 @@ export class NotesComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(async result => {
       if (result != undefined){
-        console.log(`Dialog result: ${result}`);
         await this.cargarNotas();
       } else {
-        console.log("Cancelado");
       }
       
     });
@@ -99,11 +91,8 @@ export class NotesComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(async result => {
       if (result != undefined){
-        console.log(`Dialog result: ${result}`);
-        console.log("Formulario editar", this._notesService.getNotes());
         await this.cargarNotas();
       } else {
-        console.log("Cancelado");
       }
 
     });

@@ -15,12 +15,6 @@
 	<properties>
 		<java.version>11</java.version>
 	</properties>
-	<repositories>
-    	<repository>
-        	<id>Palantir</id>
-        	<url>https://dl.bintray.com/palantir/releases/</url>
-    	</repository>
-	</repositories>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -58,11 +52,6 @@
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
 		</dependency>
-		<dependency>
-    		<groupId>com.palantir.docker.compose</groupId>
-    		<artifactId>docker-compose-rule-junit4</artifactId>
-    		<version>0.32.0</version>
-			</dependency>
 	</dependencies>
 
 	<build>
