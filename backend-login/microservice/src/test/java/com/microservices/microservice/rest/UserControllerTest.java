@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.microservices.microservice.model.entitys.User;
+import com.microservices.microservice.model.entitys.UserRepository;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -16,6 +17,7 @@ public class UserControllerTest {
 
 	@Autowired
 	UserController uc;
+	UserRepository ur;
 
 	@Test
 	public void emptyDB() {
@@ -39,14 +41,15 @@ public class UserControllerTest {
 
 	@Test
 	public void modifyUser() {
+		User admin = uc.getUserRepository().findByUsername("admin").get();
 		User modifiedUser = new User("Pepe", "pepe@pepe.com", "1234");
-		modifiedUser.setId(1L);
+		modifiedUser.setId(admin.getId());
 		uc.modifyUser(modifiedUser);
 		assertEquals(1, uc.getUsers().size(), "DB should have one admin user on creation");
 		assertEquals("Pepe", uc.getUsers().get(0).getName(), "");
 		assertEquals("pepe@pepe.com", uc.getUsers().get(0).getEmail(), "");
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		assertTrue(encoder.matches("1234", uc.getUsers().get(0).getPassword()), "");
-		uc.removeUser("Pepe");
+		uc.modifyUser(admin);
 	}
 }

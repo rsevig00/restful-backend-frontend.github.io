@@ -39,6 +39,9 @@ public class UserController {
         userRepository.save(userFinal);
     }
 
+    public UserRepository getUserRepository() {
+    	return userRepository;
+    }
 
     
     @DeleteMapping("/users/{username}")
@@ -56,6 +59,9 @@ public class UserController {
         user.setName(updatedUser.getName());
         user.setEmail(updatedUser.getEmail());
         user.setPassword(updatedUser.getPassword());
+        if (updatedUser.getPassword().length() <= 32) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+		}
         userRepository.save(user);
     }
 
