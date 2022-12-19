@@ -7,11 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.http.*;
+import org.springframework.http.ResponseEntity.BodyBuilder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -32,27 +32,24 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    public void addUser(@RequestBody User user) {
+    public BodyBuilder addUser(@RequestBody User user) {
         User userFinal = new User(user.getName(),user.getEmail(),user.getPassword());
         System.out.println("User added: " + userFinal.getName() + " " + userFinal.getEmail() + " " + userFinal.getPassword());
         userFinal.setPassword(passwordEncoder.encode(userFinal.getPassword()));
         userRepository.save(userFinal);
+        return ResponseEntity.status(HttpStatus.OK);
     }
-
-    public UserRepository getUserRepository() {
-    	return userRepository;
-    }
-
     
     @DeleteMapping("/users/{username}")
     @ResponseBody
     //Solo funciona si el parametro tiene el mismo nombre que la variable
-    public void removeUser(@PathVariable String username) {
+    public BodyBuilder removeUser(@PathVariable String username) {
         userRepository.deleteById(userRepository.findByUsername(username).get().getId());
+        return ResponseEntity.status(HttpStatus.OK);
     }
      
     @PutMapping("/users")
-    public void modifyUser(@RequestBody User updatedUser) {
+    public BodyBuilder modifyUser(@RequestBody User updatedUser) {
         System.out.println("User updated: " + updatedUser.getName() + " " + updatedUser.getEmail() + " " + updatedUser.getPassword());
         User user = userRepository.findById(updatedUser.getId()).orElse(null);
         // This should throw NullPointerException if no user is found with the ID
@@ -63,6 +60,7 @@ public class UserController {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
 		}
         userRepository.save(user);
+        return ResponseEntity.status(HttpStatus.OK);
     }
 
     @EventListener(ApplicationReadyEvent.class)

@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import com.microservices.microservice.model.entitys.User;
 import com.microservices.microservice.model.entitys.UserRepository;
@@ -17,7 +18,9 @@ public class UserControllerTest {
 
 	@Autowired
 	UserController uc;
-	UserRepository ur;
+	
+	@Autowired
+	UserRepository userRepository;
 
 	@Test
 	public void emptyDB() {
@@ -41,7 +44,7 @@ public class UserControllerTest {
 
 	@Test
 	public void modifyUser() {
-		User admin = uc.getUserRepository().findByUsername("admin").get();
+		User admin = userRepository.findByUsername("admin").get();
 		User modifiedUser = new User("Pepe", "pepe@pepe.com", "1234");
 		modifiedUser.setId(admin.getId());
 		uc.modifyUser(modifiedUser);

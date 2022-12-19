@@ -43,6 +43,6 @@ export class AuthService {
     } else {
       alert(error.message);
     }
-    return throwError(error.message);
+    return throwError(error);
   }
 }

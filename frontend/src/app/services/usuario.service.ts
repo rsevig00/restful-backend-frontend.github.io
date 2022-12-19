@@ -63,5 +63,4 @@ export class UsuarioService {
     }
     return throwError(error.message);
   }
-
 }
