@@ -62,9 +62,10 @@ export class UsuarioService {
   handleError(error: HttpErrorResponse) {
     if (error.status == 0) {
       alert("El servicio de usuarios no esta disponible");
+    } else if (error.status == 500) {
     } else {
       alert(error.message);
     }
-    return throwError(error.message);
+    return throwError(error);
   }
 }

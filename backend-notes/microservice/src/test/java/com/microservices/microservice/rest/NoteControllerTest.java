@@ -25,46 +25,46 @@ public class NoteControllerTest {
 
     @Test
     public void emptyDB() {
-        assertEquals(0, uc.getNotes().size(), "DB should't have notes on creation");
+        assertEquals(1, uc.getNotes().size(), "DB should't have notes on creation");
     }
 
     @Test
-    public void addUser() {
+    public void addNote() {
         Date fecha= new Date(2001, 1, 1);
         uc.addNote(new Note("Titulo", "Cuerpo", fecha));
+        assertEquals(2, uc.getNotes().size());
+        assertEquals("Titulo",uc.getNotes().get(1).getTitle());
+        assertEquals("Cuerpo",uc.getNotes().get(1).getBody());
+        assertEquals(fecha,uc.getNotes().get(1).getDate());
+        uc.removeNote(uc.getNotes().get(1).getId());
+    }
+
+    @Test
+    public void removeNote() {
+        Date fecha= new Date(2001, 1, 1);
+        uc.addNote(new Note("Titulo", "Cuerpo", fecha));
+        assertEquals(2, uc.getNotes().size());
+        uc.removeNote(uc.getNotes().get(1).getId());
         assertEquals(1, uc.getNotes().size());
-        assertEquals("Titulo",uc.getNotes().get(0).getTitle());
-        assertEquals("Cuerpo",uc.getNotes().get(0).getBody());
-        assertEquals(fecha,uc.getNotes().get(0).getDate());
-        uc.removeNote(uc.getNotes().get(0).getId());
     }
 
     @Test
-    public void removeUser() {
+    public void modifyNote() {
         Date fecha= new Date(2001, 1, 1);
         uc.addNote(new Note("Titulo", "Cuerpo", fecha));
-        assertEquals(1, uc.getNotes().size());
-        uc.removeNote(uc.getNotes().get(0).getId());
-        assertEquals(0, uc.getNotes().size());
-    }
-
-    @Test
-    public void modifyUser() {
-        Date fecha= new Date(2001, 1, 1);
-        uc.addNote(new Note("Titulo", "Cuerpo", fecha));
-        assertEquals("Titulo",uc.getNotes().get(0).getTitle());
-        assertEquals("Cuerpo",uc.getNotes().get(0).getBody());
-        assertEquals(fecha,uc.getNotes().get(0).getDate());
+        assertEquals("Titulo",uc.getNotes().get(1).getTitle());
+        assertEquals("Cuerpo",uc.getNotes().get(1).getBody());
+        assertEquals(fecha,uc.getNotes().get(1).getDate());
 
         Date fecha2= new Date(2002, 2, 2);
         Note modificada = new Note("Titulo Modificado", "Cuerpo Modificado", fecha2);
-        modificada.setId(uc.getNotes().get(0).getId());
+        modificada.setId(uc.getNotes().get(1).getId());
         uc.modifyNote(modificada);
+        assertEquals(2, uc.getNotes().size());
+        assertEquals("Titulo Modificado",uc.getNotes().get(1).getTitle());
+        assertEquals("Cuerpo Modificado",uc.getNotes().get(1).getBody());
+        assertEquals(fecha2,uc.getNotes().get(1).getDate());
+        uc.removeNote(uc.getNotes().get(1).getId());
         assertEquals(1, uc.getNotes().size());
-        assertEquals("Titulo Modificado",uc.getNotes().get(0).getTitle());
-        assertEquals("Cuerpo Modificado",uc.getNotes().get(0).getBody());
-        assertEquals(fecha2,uc.getNotes().get(0).getDate());
-        uc.removeNote(uc.getNotes().get(0).getId());
-        assertEquals(0, uc.getNotes().size());
     }
 }

@@ -50,7 +50,7 @@ public class UserController {
     }
      
     @PutMapping("/users")
-    public void modifyUser(@RequestBody ArrayList<User> users) {
+    public BodyBuilder modifyUser(@RequestBody ArrayList<User> users) {
         User updatedUser = users.get(0);
         User pastUser = users.get(1);
         User user = userRepository.findByUsername(pastUser.getName()).get();

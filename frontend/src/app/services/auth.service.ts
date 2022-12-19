@@ -37,6 +37,7 @@ export class AuthService {
   handleError(error: HttpErrorResponse) {
     if(error.status == 0) {
       alert("El servicio de login no esta disponible");
+    } else if (error.status == 500) {
     } else if(error.status == 401) {
       alert("Usuario o contraseña incorrectos");
 

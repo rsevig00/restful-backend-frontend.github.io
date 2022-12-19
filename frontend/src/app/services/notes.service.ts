@@ -36,7 +36,6 @@ export class NotesService {
 
   editarNotes(Notes: Notes) {
     this.headers = new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem("auth_token")}`);
-    let params = new HttpParams();
     return this.http.put(this.notesUrl, Notes, { headers: this.headers }).pipe(
       catchError(this.handleError)).subscribe();
   }
@@ -44,10 +43,11 @@ export class NotesService {
   handleError(error: HttpErrorResponse) {
     if (error.status == 0) {
       alert("El servicio de notas no esta disponible");
+    } else if (error.status == 500) {
     } else {
       alert(error.message);
     }
-    return throwError(error.message);
+    return throwError(error);
   }
 
 }
