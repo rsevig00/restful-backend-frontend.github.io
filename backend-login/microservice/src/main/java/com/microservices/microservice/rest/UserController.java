@@ -27,12 +27,10 @@ public class UserController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    /*
     @GetMapping("/users")
     public List<User> getUsers() {
         return (List<User>) userRepository.findAll();
     }
-    */
 
     @PostMapping("/users")
     public void addUser(@RequestBody User user) {
