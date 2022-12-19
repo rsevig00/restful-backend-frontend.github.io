@@ -36,9 +36,12 @@ export class UsersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._usuarioService.getUsuarios().subscribe((res: any) => {
-      this.dataSource.data = res
-    });
+    if (localStorage.getItem("auth_token") != null) {
+      this._usuarioService.getUsuarios().subscribe((res: any) => {
+        this.dataSource.data = res
+      });
+    }
+    
   }
 
   ngOnDestroy() {

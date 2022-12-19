@@ -29,9 +29,9 @@ export class AuthService {
   }
 
   navigateAndTokenAsync(resp: any) {
-    this.router.navigate(['/home']);
     localStorage.setItem('activeUsername', resp.username);
     localStorage.setItem('auth_token', resp.accessToken);
+    this.router.navigate(['/home']);
   }
 
   handleError(error: HttpErrorResponse) {

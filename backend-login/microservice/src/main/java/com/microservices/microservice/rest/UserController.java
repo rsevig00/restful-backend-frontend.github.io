@@ -12,6 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -34,7 +36,6 @@ public class UserController {
     @PostMapping("/users")
     public BodyBuilder addUser(@RequestBody User user) {
         User userFinal = new User(user.getName(),user.getEmail(),user.getPassword());
-        System.out.println("User added: " + userFinal.getName() + " " + userFinal.getEmail() + " " + userFinal.getPassword());
         userFinal.setPassword(passwordEncoder.encode(userFinal.getPassword()));
         userRepository.save(userFinal);
         return ResponseEntity.status(HttpStatus.OK);
@@ -49,9 +50,10 @@ public class UserController {
     }
      
     @PutMapping("/users")
-    public BodyBuilder modifyUser(@RequestBody User updatedUser) {
-        System.out.println("User updated: " + updatedUser.getName() + " " + updatedUser.getEmail() + " " + updatedUser.getPassword());
-        User user = userRepository.findById(updatedUser.getId()).orElse(null);
+    public void modifyUser(@RequestBody ArrayList<User> users) {
+        User updatedUser = users.get(0);
+        User pastUser = users.get(1);
+        User user = userRepository.findByUsername(pastUser.getName()).get();
         // This should throw NullPointerException if no user is found with the ID
         user.setName(updatedUser.getName());
         user.setEmail(updatedUser.getEmail());
@@ -70,6 +72,7 @@ public class UserController {
             String token = jwtUtils.generateJwtTokenService();
 
             final String uri = "http://backend-users:8080/users/users";
+            //final String uri = "http://localhost:8080/users/users";
             RestTemplate restTemplate = new RestTemplate();
             HttpHeaders headers = new HttpHeaders();
             headers.set("Authorization", "Bearer " + token);
