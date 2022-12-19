@@ -61,11 +61,8 @@ export class ConfirmDialogComponent implements OnInit {
     }
 
     let responsePost = this._usuarioService.agregarUsuario(usuario);
-    
-
     this.sendMessage();
-
-    this.dialogRef.close(1);
+    this.dialogRef.close(responsePost);
   }
 
   validarPassword() {

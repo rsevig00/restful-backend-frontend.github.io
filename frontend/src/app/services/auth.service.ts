@@ -30,7 +30,6 @@ export class AuthService {
 
   navigateAndTokenAsync(resp: any) {
     localStorage.setItem('activeUsername', resp.username);
-    console.log(resp.accessToken);
     localStorage.setItem('auth_token', resp.accessToken);
     this.router.navigate(['/home']);
   }

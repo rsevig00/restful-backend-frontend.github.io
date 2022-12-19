@@ -24,8 +24,6 @@ export class UsuarioService {
 
   getUsuarios(): Observable<Usuario[]> {
     this.headers = new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem("auth_token")}`);
-    console.log("Headers:", this.headers);
-    console.log("hola hago un get");
     return this.http.get<Usuario[]>(this.usersUrl, { headers: this.headers }).pipe(
       catchError(this.handleError)
     );
@@ -65,7 +63,6 @@ export class UsuarioService {
     if (error.status == 0) {
       alert("El servicio de usuarios no esta disponible");
     } else {
-      console.log("Esta el token?", localStorage.getItem("auth_token"));
       alert(error.message);
     }
     return throwError(error.message);

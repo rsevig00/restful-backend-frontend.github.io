@@ -31,7 +31,6 @@ public class MicroserviceUsers {
             Stream.of("admin").forEach(name -> {
                 User user = new User(name, name.toLowerCase() + "@domain.com", passwordEncoder.encode("admin"));
                 Optional<User> var = userRepository.findByUsername(name);
-
                 if (var.isEmpty()) {
                     userRepository.save(user);
                 }

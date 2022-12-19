@@ -40,8 +40,6 @@ public class UserController {
 
 	@PostMapping("/users")
 	public ResponseEntity<String> addUser(@RequestBody User user) {
-		// check if username exists
-		System.out.println("User saved");
 		if (!userRepository.findByUsername(user.getName()).isEmpty()) {
 			return ResponseEntity.ok(gson.toJson("Username already exists"));
 		} else if (!userRepository.findByEmail(user.getEmail()).isEmpty()) {

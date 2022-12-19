@@ -37,7 +37,6 @@ export class UsersComponent implements OnInit {
 
   ngOnInit(): void {
     if (localStorage.getItem("auth_token") != null) {
-      console.log("token: " + localStorage.getItem("auth_token"));
       this._usuarioService.getUsuarios().subscribe((res: any) => {
         this.dataSource.data = res
       });
