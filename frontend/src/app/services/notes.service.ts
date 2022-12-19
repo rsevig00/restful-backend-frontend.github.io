@@ -19,20 +19,23 @@ export class NotesService {
   }
 
   getNotes(): Observable<Notes[]> {
+    this.headers = new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem("auth_token")}`);
     return this.http.get<Notes[]>(this.notesUrl, { headers: this.headers }).pipe(
       catchError(this.handleError));
   }
   eliminarNotes(id: number) {
+    this.headers = new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem("auth_token")}`);
     return this.http.delete<number>(this.notesUrl + "/" + id, { headers: this.headers }).pipe(
       catchError(this.handleError));
   }
   agregarNotes(note: Notes) {
-
+    this.headers = new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem("auth_token")}`);
     return this.http.post(this.notesUrl, note, { headers: this.headers }).pipe(
       catchError(this.handleError)).subscribe();
   }
 
   editarNotes(Notes: Notes) {
+    this.headers = new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem("auth_token")}`);
     let params = new HttpParams();
     return this.http.put(this.notesUrl, Notes, { headers: this.headers }).pipe(
       catchError(this.handleError)).subscribe();
@@ -42,7 +45,7 @@ export class NotesService {
     if (error.status == 0) {
       alert("El servicio de notas no esta disponible");
     } else {
-      alert(error.error.message);
+      alert(error.message);
     }
     return throwError(error.message);
   }

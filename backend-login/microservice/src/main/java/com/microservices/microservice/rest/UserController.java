@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -51,9 +52,11 @@ public class UserController {
     }
      
     @PutMapping("/users")
-    public void modifyUser(@RequestBody User updatedUser) {
+    public void modifyUser(@RequestBody ArrayList<User> users) {
+        User updatedUser = users.get(0);
+        User pastUser = users.get(1);
         System.out.println("User updated: " + updatedUser.getName() + " " + updatedUser.getEmail() + " " + updatedUser.getPassword());
-        User user = userRepository.findById(updatedUser.getId()).orElse(null);
+        User user = userRepository.findByUsername(pastUser.getName()).get();
         // This should throw NullPointerException if no user is found with the ID
         user.setName(updatedUser.getName());
         user.setEmail(updatedUser.getEmail());
@@ -68,6 +71,7 @@ public class UserController {
             String token = jwtUtils.generateJwtTokenService();
 
             final String uri = "http://backend-users:8080/users/users";
+            //final String uri = "http://localhost:8080/users/users";
             RestTemplate restTemplate = new RestTemplate();
             HttpHeaders headers = new HttpHeaders();
             headers.set("Authorization", "Bearer " + token);

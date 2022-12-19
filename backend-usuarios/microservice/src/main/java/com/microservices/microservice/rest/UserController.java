@@ -16,10 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -35,7 +32,7 @@ public class UserController {
 	private static final Gson gson = new Gson();
 
 	private static final String loginURI = "http://backend-login:8082/auth/users";
-
+	//private static final String loginURI = "http://localhost:8082/auth/users";
 	@GetMapping("/users")
 	public List<User> getUsers() {
 		return (List<User>) userRepository.findAll();
@@ -93,6 +90,7 @@ public class UserController {
 			return ResponseEntity.ok(gson.toJson("Email already exists"));
 		} else {
 			// This should throw NullPointerException if no user is found with the ID
+			User pastUser = new User(user.getName(), user.getEmail(), user.getPassword());
 			user.setName(updatedUser.getName());
 			user.setEmail(updatedUser.getEmail());
 			user.setPassword(updatedUser.getPassword());
@@ -103,7 +101,10 @@ public class UserController {
 			// Save in login
 			try {
 				RestTemplate restTemplate = new RestTemplate();
-				restTemplate.put(loginURI, user, User.class);
+				ArrayList<User> users = new ArrayList<>();
+				users.add(user);
+				users.add(pastUser);
+				restTemplate.put(loginURI, users, User.class);
 				return ResponseEntity.ok(gson.toJson(0));
 			} catch (ResourceAccessException e) {
 				System.out.println("Server login down");
@@ -117,6 +118,7 @@ public class UserController {
 		try {
 			// Actualizar login
 			final String uri = "http://backend-login:8082/auth/users/refresh";
+			//final String uri = "http://localhost:8082/auth/users/refresh";
 			RestTemplate restTemplate = new RestTemplate();
 			List<User> listaUsuarios = (List<User>) userRepository.findAll();
 			Object result = restTemplate.postForObject(uri, listaUsuarios, User.class);

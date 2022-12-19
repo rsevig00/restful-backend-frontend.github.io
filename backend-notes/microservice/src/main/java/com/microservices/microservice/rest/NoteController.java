@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.microservices.microservice.model.entitys.Note;
 import com.microservices.microservice.model.entitys.NoteRepository;
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 @RequestMapping("/notes")
 public class NoteController {
 

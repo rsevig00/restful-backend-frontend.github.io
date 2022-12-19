@@ -23,15 +23,20 @@ export class UsuarioService {
   }
 
   getUsuarios(): Observable<Usuario[]> {
+    this.headers = new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem("auth_token")}`);
+    console.log("Headers:", this.headers);
+    console.log("hola hago un get");
     return this.http.get<Usuario[]>(this.usersUrl, { headers: this.headers }).pipe(
       catchError(this.handleError)
     );
   }
   eliminarUsuario(userName: string) {
+    this.headers = new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem("auth_token")}`);
     return this.http.delete<string>(this.usersUrl + "/" + userName, { headers: this.headers }).pipe(
       catchError(this.handleError));
   }
   agregarUsuario(user: Usuario) {
+    this.headers = new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem("auth_token")}`);
     return this.http.post(this.usersUrl, user, { headers: this.headers, observe: 'response' }).pipe(
       catchError(this.handleError),
       map(res => {
@@ -42,6 +47,7 @@ export class UsuarioService {
   }
 
   editarUsuario(usuario: Usuario) {
+    this.headers = new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem("auth_token")}`);
     return this.http.put(this.usersUrl, usuario, { headers: this.headers, observe: 'response' }).pipe(
       catchError(this.handleError),
       map(res => {
@@ -59,7 +65,8 @@ export class UsuarioService {
     if (error.status == 0) {
       alert("El servicio de usuarios no esta disponible");
     } else {
-      alert(error.error.message);
+      console.log("Esta el token?", localStorage.getItem("auth_token"));
+      alert(error.message);
     }
     return throwError(error.message);
   }
